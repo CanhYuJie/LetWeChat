@@ -1,12 +1,13 @@
-package com.yujie.letwechat
+package com.yujie.letwechat.view.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.yujie.letwechat.R
 
-class MainActivity : AppCompatActivity() {
+class SplashActivty : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_splash)
     }
 }
