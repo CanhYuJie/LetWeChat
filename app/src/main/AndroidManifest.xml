@@ -41,7 +41,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <activity android:name=".SplashActivty">
+        <activity android:name=".view.activity.SplashActivty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
