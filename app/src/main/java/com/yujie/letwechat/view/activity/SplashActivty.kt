@@ -17,21 +17,4 @@ class SplashActivty : AppCompatActivity() {
         activity_splash.startAnimation(animation)
     }
 
-    override fun onStart() {
-        super.onStart()
-        val util = OkHttpUtils<String>(this)
-        util.url("http://www.baidu.com")
-        .targetClass(String::class.java)
-        .execute(object : OkHttpUtils.OnCompleteListener<String> {
-            override fun onError(msg: String?) {
-                Log.e(TAG,"onError :-> $msg")
-            }
-
-            override fun onSuccess(result: String) {
-                for (c in result) {
-                    Log.e(TAG,"onSuccess fun: -> $c ")
-                }
-            }
-        })
-    }
 }

@@ -164,7 +164,7 @@ fun removeValue(context: Context,key : String){
     }
 }
 
-private fun getSharedPreferences(context: Context): SharedPreferences {
+fun getSharedPreferences(context: Context): SharedPreferences {
     return PreferenceManager.getDefaultSharedPreferences(context)
 }
 
