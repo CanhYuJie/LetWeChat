@@ -8,7 +8,6 @@ import java.util.*
  */
 
 data class Result (val retCode : Int,val retMsg : Boolean,val retData : RetDataBean?) : Serializable
-
 data class RetDataBean(val muserName     : String,
                        val muserNick     : String,
                        val mavatarId     : Int,

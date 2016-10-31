@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import com.google.gson.Gson
+import com.yujie.letwechat.I
 import okhttp3.*
 import java.io.File
 import java.io.IOException
@@ -101,6 +102,13 @@ class OkHttpUtils<T>(context: Context){
             return this
         }
         mBuilder?.readTimeout(time,TimeUnit.SECONDS)
+        return this
+    }
+
+    fun setRequestUrl(request: String): OkHttpUtils<T> {
+        mUrl = StringBuilder(I.SERVER_ROOT)
+        mUrl?.append(request)
+        //        Log.e("okhttp","1 murl="+ mUrl.toString());
         return this
     }
 

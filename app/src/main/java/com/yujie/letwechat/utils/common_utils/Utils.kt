@@ -36,10 +36,20 @@ fun showShortToast(context: Context,msg: String){
     Toast.makeText(context,msg,Toast.LENGTH_SHORT)
 }
 
+fun showLongToastRes(context: Context,msg: Int){
+    val str = context.resources.getString(msg)
+    Toast.makeText(context,str,Toast.LENGTH_LONG)
+}
+
+fun showShortToastRes(context: Context,msg: Int){
+    val str = context.resources.getString(msg)
+    Toast.makeText(context,str,Toast.LENGTH_SHORT)
+}
+
 /**
  * finish activity
  */
-fun finish(activity:Activity){
+fun Kfinish(activity:Activity){
     activity.finish()
     activity.overridePendingTransition(R.anim.push_right_in,
             R.anim.push_right_out)
@@ -48,7 +58,7 @@ fun finish(activity:Activity){
 /**
  * start activity with a bean object
  */
-fun startActivity(activity: Activity,cls: Class<Any>,
+fun <T>KstartActivity(activity: Activity,cls: Class<T>,
                   tag: String,value: Serializable){
     val intent = Intent()
     intent.setClass(activity,cls)
@@ -65,7 +75,7 @@ fun startActivity(activity: Activity,cls: Class<Any>,
 /**
  * start Activity with a string value
  */
-fun startActivity(activity : Activity, cls : Class<Any>,
+fun <T>KstartActivity(activity : Activity, cls : Class<T>,
                   tag : String, value : String) {
     val intent = Intent()
     intent.setClass(activity,cls)
@@ -80,7 +90,7 @@ fun startActivity(activity : Activity, cls : Class<Any>,
 /**
  * start activity with a integer value
  */
-fun startActivity(activity : Activity, cls : Class<Any>,
+fun <T>KstartActivity(activity : Activity, cls : Class<T>,
                   tag : String, value : Int) {
     val intent = Intent()
     intent.setClass(activity,cls)
@@ -91,10 +101,17 @@ fun startActivity(activity : Activity, cls : Class<Any>,
     activity.overridePendingTransition(R.anim.push_left_in,
             R.anim.push_left_out)
 }
+fun <T>KstartActivity(activity : Activity, cls : Class<T>) {
+    val intent = Intent()
+    intent.setClass(activity,cls)
+    activity.startActivity(intent)
+    activity.overridePendingTransition(R.anim.push_left_in,
+            R.anim.push_left_out)
+}
 /**
  * start activity with a boolean value
  */
-fun startActivity(activity : Activity, cls : Class<Any>,
+fun <T>KstartActivity(activity : Activity, cls : Class<T>,
                   tag : String, value : Boolean) {
     val intent = Intent()
     intent.setClass(activity,cls)
