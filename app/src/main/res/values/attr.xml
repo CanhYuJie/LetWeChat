@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTitleBar">
+        <attr name="title_text_color" format="color" />
+        <attr name="title_text_size" format="dimension" />
+        <attr name="title_text" format="string" />
+        <attr name="left_btn_background" format="reference|integer" />
+        <attr name="show_left_btn" format="boolean" />
+        <attr name="right_btn_img" format="reference|integer" />
+        <attr name="right_btn_text" format="string" />
+        <attr name="right_btn_text_size" format="dimension" />
+        <attr name="right_btn_text_color" format="color" />
+        <attr name="show_right_btn" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="tab_button">
+        <attr name="tabtext" format="reference|string" />
+        <attr name="txtSize" format="reference|dimension" />
+        <attr name="drawableTop" format="reference" />
+        <attr name="drawableTopAttr" format="string" />
+        <attr name="drawableBottom" format="reference" />
+    </declare-styleable>
+</resources>
