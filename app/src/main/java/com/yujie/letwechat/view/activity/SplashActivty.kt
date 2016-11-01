@@ -1,19 +1,13 @@
 package com.yujie.letwechat.view.activity
 
 import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.animation.AlphaAnimation
 import com.hyphenate.chat.EMClient
-import com.hyphenate.util.EasyUtils
-import com.hyphenate.util.Utils
 import com.yujie.kotlinfulicenter.model.bean.Result
-import com.yujie.kotlinfulicenter.utils.goNextActivity
-import com.yujie.letwechat.App
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.db.DBHelper
@@ -66,11 +60,9 @@ class SplashActivty : AppCompatActivity() {
                 override fun onSuccess(result: Result) {
                     if (result != null && result.retMsg) {
                         if (DBHelper(this@SplashActivty).findLoginUser() != null) {
-
-                        }else{
-                            Log.e(TAG,"onSuccess ")
                             hxIsLogin()
-//                          //  goLogin()
+                        }else{
+                            goLogin()
                         }
                     }
                 }
@@ -87,7 +79,7 @@ class SplashActivty : AppCompatActivity() {
     }
 
     private fun hxIsLogin() {
-            Thread(Runnable {
+            thread {
                 if (EMClient.getInstance().isLoggedInBefore){
                     val start = System.currentTimeMillis()
                     EMClient.getInstance().groupManager().loadAllGroups()
@@ -99,7 +91,7 @@ class SplashActivty : AppCompatActivity() {
                 }else{
                     handler.sendEmptyMessageDelayed(GO_LOGIN, sleepTime.toLong())
                 }
-            }).start()
+            }
     }
 
 }

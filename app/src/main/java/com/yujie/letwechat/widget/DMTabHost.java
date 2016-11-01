@@ -10,12 +10,10 @@ import android.widget.LinearLayout;
 public class DMTabHost extends LinearLayout implements OnClickListener {
     public DMTabHost(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     protected void onFinishInflate() {
-        // TODO Auto-generated method stub
         super.onFinishInflate();
         int count = getChildCount();
         for (int i = 0; i < count; i++) {
@@ -71,7 +69,6 @@ public class DMTabHost extends LinearLayout implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         int count = getChildCount();
         for (int i = 0; i < count; i++) {
             View view = getChildAt(i);

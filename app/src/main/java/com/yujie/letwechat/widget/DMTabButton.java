@@ -26,25 +26,21 @@ public class DMTabButton extends RelativeLayout
 	{
 		super(context, attrs, defStyle);
 		initLayout(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public DMTabButton(Context context)
 	{
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public DMTabButton(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		initLayout(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	private void initLayout(Context context, AttributeSet attrs)
 	{
-		// TODO Auto-generated method stub
 		View contentView = LayoutInflater.from(context).inflate(R.layout.main_tab_bottom_item, this);
 		image = (ImageView) contentView.findViewById(R.id.iv_tab_item_icon);
 		tab_button = (TextView) contentView.findViewById(R.id.tv_tab_item_icon);
