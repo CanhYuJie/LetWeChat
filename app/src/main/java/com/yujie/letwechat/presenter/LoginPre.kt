@@ -1,6 +1,7 @@
 package com.yujie.letwechat.presenter
 
 import android.content.Context
+import android.os.Looper
 import android.util.Log
 import com.hyphenate.EMCallBack
 import com.hyphenate.chat.EMClient
@@ -43,8 +44,13 @@ class LoginPre(val context: Context, val view:ILoginView) {
                 EMClient.getInstance().groupManager().loadAllGroups()
                 EMClient.getInstance().chatManager().loadAllConversations()
                 App.initInstance().currentUser = result.retData
-                DBHelper(context).addUser(result.retData!!,1)
-                view.loginSuccess()
+                if (DBHelper(context).findUserById(userName)!=null){
+                    DBHelper(context).updateStatus(1,userName)
+                    view.loginSuccess()
+                }else{
+                    DBHelper(context).addUser(result.retData!!,1)
+                    view.loginSuccess()
+                }
             }
 
             override fun onProgress(p0: Int, p1: String?) {
@@ -52,7 +58,9 @@ class LoginPre(val context: Context, val view:ILoginView) {
             }
 
             override fun onError(p0: Int, p1: String?) {
+                Looper.prepare()
                 view.loginFailed(p1!!)
+                Looper.loop()
             }
 
         })

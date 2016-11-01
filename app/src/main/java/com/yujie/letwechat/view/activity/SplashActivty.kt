@@ -64,7 +64,7 @@ class SplashActivty : AppCompatActivity() {
                         if (DBHelper(this@SplashActivty).findLoginUser() != null) {
                             hxIsLogin()
                         }else{
-                            goLogin()
+                            handler.sendEmptyMessageDelayed(GO_LOGIN,sleepTime.toLong())
                         }
                     }
                 }

@@ -75,4 +75,22 @@ class DBHelper(
         }
         return null
     }
+
+    fun findUserById(id:String): RetDataBean? {
+        val db = readableDatabase
+        val sql = "select * from t_user where muserName=?"
+        val cursor = db.rawQuery(sql,arrayOf(id))
+        while (cursor.moveToNext()) {
+            val muserName = cursor.getString(cursor.getColumnIndex("muserName"))
+            val muserNick = cursor.getString(cursor.getColumnIndex("muserNick"))
+            val mavatarId = cursor.getInt(cursor.getColumnIndex("mavatarId"))
+            val mavatarPath = cursor.getString(cursor.getColumnIndex("mavatarPath"))
+            val mavatarSuffix = cursor.getString(cursor.getColumnIndex("mavatarSuffix"))
+            val mavatarType = cursor.getInt(cursor.getColumnIndex("mavatarType"))
+            val mavatarLastUpdateTime = cursor.getString(cursor.getColumnIndex("mavatarLastUpdateTime"))
+            val user = RetDataBean(muserName,muserNick,mavatarId,mavatarPath,mavatarSuffix,mavatarType,mavatarLastUpdateTime)
+            return user
+        }
+        return null
+    }
 }

@@ -30,21 +30,21 @@ import java.util.regex.Pattern
  * Toast utils
  */
 fun showLongToast(context: Context,msg: String){
-    Toast.makeText(context,msg,Toast.LENGTH_LONG)
+    Toast.makeText(context,msg,Toast.LENGTH_LONG).show()
 }
 
 fun showShortToast(context: Context,msg: String){
-    Toast.makeText(context,msg,Toast.LENGTH_SHORT)
+    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show()
 }
 
 fun showLongToastRes(context: Context,msg: Int){
     val str = context.resources.getString(msg)
-    Toast.makeText(context,str,Toast.LENGTH_LONG)
+    Toast.makeText(context,str,Toast.LENGTH_LONG).show()
 }
 
 fun showShortToastRes(context: Context,msg: Int){
     val str = context.resources.getString(msg)
-    Toast.makeText(context,str,Toast.LENGTH_SHORT)
+    Toast.makeText(context,str,Toast.LENGTH_SHORT).show()
 }
 
 /**

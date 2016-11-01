@@ -17,23 +17,34 @@ class LoginActivity : AppCompatActivity(),ILoginView{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         login()
+        goRegister()
+    }
+
+    private fun goRegister() {
+        btn_qtlogin.setOnClickListener{
+            KstartActivity(this,RegisterActivity::class.java)
+        }
     }
 
     private fun login() {
-        btn_login.setOnClickListener(){
+        btn_login.setOnClickListener{
             val userName = et_usertel.text.toString()
             val password = et_password.text.toString()
             if (invalidEmpty(et_usertel))
                 return@setOnClickListener
             if (invalidEmpty(et_password))
                 return@setOnClickListener
-            if (isNumber(userName)){
-                Log.e(TAG,"login ")
-                pre.login(userName,password)
-            }
+            pre.login(userName,password)
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val userName = intent.getStringExtra("userName")
+        if (userName != null) {
+            et_usertel.setText(userName)
+        }
+    }
     override fun loginFailed(msg: String) {
         showShortToast(this,msg)
     }
