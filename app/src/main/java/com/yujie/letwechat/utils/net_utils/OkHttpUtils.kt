@@ -56,7 +56,7 @@ class OkHttpUtils<T>(context: Context){
                 super.handleMessage(msg)
                 when(msg.what){
                     RESULT_ERROR    ->  {
-                        listener?.onError(msg.obj?.toString())
+                        listener?.onError(msg.obj.toString())
                     }
                     RESULT_SUCCESS  ->  {
                         val obj : T = msg.obj as T
@@ -69,7 +69,7 @@ class OkHttpUtils<T>(context: Context){
 
     interface OnCompleteListener<T> {
         fun onSuccess(result: T)
-        fun onError(msg : String?)
+        fun onError(msg : String)
     }
 
     /**

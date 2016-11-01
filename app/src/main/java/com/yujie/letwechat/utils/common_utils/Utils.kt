@@ -13,6 +13,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import com.yujie.letwechat.R
 import java.io.Serializable
@@ -122,6 +123,20 @@ fun <T>KstartActivity(activity : Activity, cls : Class<T>,
     activity.overridePendingTransition(R.anim.push_left_in,
             R.anim.push_left_out)
 }
+
+/**
+ * invalid text is Empty
+ */
+fun invalidEmpty(view: EditText): Boolean {
+    val text = view.text.toString()
+    if (text.isEmpty()) {
+        view.error = "no input,please input"
+        view.requestFocus()
+        return true
+    }
+    return false
+}
+
 /**
  * get Internet connect state
  */

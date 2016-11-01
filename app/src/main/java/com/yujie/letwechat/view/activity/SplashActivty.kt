@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.animation.AlphaAnimation
 import com.hyphenate.chat.EMClient
 import com.yujie.kotlinfulicenter.model.bean.Result
@@ -19,7 +20,7 @@ import kotlin.concurrent.thread
 
 class SplashActivty : AppCompatActivity() {
     val TAG : String = SplashActivty::class.java.simpleName
-    private val sleepTime = 5000
+    private val sleepTime = 3000
     private var context : Context? = null
     private val GO_MAIN = 101
     private val GO_LOGIN = 102
@@ -48,6 +49,7 @@ class SplashActivty : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         context = this
         val animation = AlphaAnimation(0.3f,1.0f)
+        animation.duration = 3000
         activity_splash.startAnimation(animation)
     }
 
@@ -67,7 +69,7 @@ class SplashActivty : AppCompatActivity() {
                     }
                 }
 
-                override fun onError(msg: String?) {
+                override fun onError(msg: String) {
                     showLongToastRes(this@SplashActivty,R.string.no_connection)
                 }
             })
@@ -80,6 +82,7 @@ class SplashActivty : AppCompatActivity() {
 
     private fun hxIsLogin() {
             thread {
+                Log.e(TAG,"hxIsLogin "+EMClient.getInstance().isLoggedInBefore)
                 if (EMClient.getInstance().isLoggedInBefore){
                     val start = System.currentTimeMillis()
                     EMClient.getInstance().groupManager().loadAllGroups()

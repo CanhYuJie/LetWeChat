@@ -8,6 +8,7 @@ import com.hyphenate.EMConnectionListener
 import com.hyphenate.EMError
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMOptions
+import com.yujie.kotlinfulicenter.model.bean.RetDataBean
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import java.util.*
 
@@ -23,6 +24,11 @@ class App : Application(){
             return instance
         }
     }
+
+    /**
+     * set current user who has logined
+     */
+    var currentUser : RetDataBean? = null
 
     /**
      * it's important to use list to save per activity

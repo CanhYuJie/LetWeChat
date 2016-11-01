@@ -11,7 +11,7 @@ data class Result (val retCode : Int,val retMsg : Boolean,val retData : RetDataB
 data class RetDataBean(val muserName     : String,
                        val muserNick     : String,
                        val mavatarId     : Int,
-                       val mavatarPath   : String,
-                       val mavatarSuffix : String,
-                       val mavatarType   : Int,
+                       val mavatarPath   : String?,
+                       val mavatarSuffix : String?,
+                       val mavatarType   : Int?,
                        val mavatarLastUpdateTime : String) : Serializable
