@@ -120,4 +120,8 @@
     <string name="user_nick">昵称</string>
     <string name="user_nick_hint">请输入昵称</string>
     <string name="user_name_hint">请输入用户名</string>
+    <string name="weixin">微信</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

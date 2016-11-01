@@ -1,7 +1,9 @@
 package com.yujie.kotlinfulicenter.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.widget.EditText
+import android.widget.RadioButton
 import java.util.*
 
 /**
@@ -39,3 +41,8 @@ import java.util.*
         return true
     }
 
+    fun convertDraw(context: Context,btn:RadioButton,drawable:Int){
+        val draw : Drawable = context.resources.getDrawable(drawable, null)
+        draw.setBounds(0,0,85,85)
+        btn.setCompoundDrawables(null,draw,null,null)
+    }

@@ -75,7 +75,7 @@ public class CustomTitleBar extends RelativeLayout {
          * title's attribute
          * */
         title_text_color = typedArray.getColor(R.styleable.CustomTitleBar_title_text_color, Color.WHITE);
-        title_text_size = typedArray.getColor(R.styleable.CustomTitleBar_title_text_size,25);
+        title_text_size = (int) typedArray.getDimension(R.styleable.CustomTitleBar_title_text_size,20L);
         title_text_text = typedArray.getString(R.styleable.CustomTitleBar_title_text);
         /**
          * left button's attribute
@@ -88,13 +88,14 @@ public class CustomTitleBar extends RelativeLayout {
         right_btn_background = typedArray.getResourceId(R.styleable.CustomTitleBar_right_btn_img,0);
         right_btn_text = typedArray.getString(R.styleable.CustomTitleBar_right_btn_text);
         right_btn_text_color = typedArray.getColor(R.styleable.CustomTitleBar_right_btn_text_color, Color.WHITE);
-        right_btn_text_size = typedArray.getColor(R.styleable.CustomTitleBar_right_btn_text_size,25);
+        right_btn_text_size = (int) typedArray.getDimension(R.styleable.CustomTitleBar_right_btn_text_size,22L);
         show_right_btn = typedArray.getBoolean(R.styleable.CustomTitleBar_show_right_btn,false);
 
         setTitle_text_color(title_text_color);
         setTitle_text_size(title_text_size);
         setTitle_text_text(title_text_text);
-
+        setShow_left_btn(show_left_btn);
+        setShow_right_btn(show_right_btn);
         if (show_right_btn){
             if (!TextUtils.isEmpty(right_btn_text)){
                 setRight_btn_text(right_btn_text);
@@ -191,6 +192,11 @@ public class CustomTitleBar extends RelativeLayout {
      */
     public void setShow_left_btn(boolean show_left_btn) {
         this.show_left_btn = show_left_btn;
+        if (show_left_btn){
+            left_btn.setVisibility(View.VISIBLE);
+        }else {
+            left_btn.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -231,6 +237,11 @@ public class CustomTitleBar extends RelativeLayout {
      */
     public void setShow_right_btn(boolean show_right_btn) {
         this.show_right_btn = show_right_btn;
+        if (show_right_btn){
+            right_btn.setVisibility(View.VISIBLE);
+        }else {
+            right_btn.setVisibility(View.GONE);
+        }
     }
 
     /**

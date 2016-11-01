@@ -1,9 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yujie.letwechat.view.activity.MainActivity">
+    <com.yujie.letwechat.widget.CustomTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:title_text_color="@color/white"
+        app:title_text="@string/app_name"
+        app:show_left_btn="false"
+        app:title_text_size="10dp"
+        android:id="@+id/titlebar"
+        >
+    </com.yujie.letwechat.widget.CustomTitleBar>
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_add_fun"
+        android:layout_width="35dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/icon_add"
+        android:layout_alignParentRight="true"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/titlebar"
+        android:id="@+id/mainVP"
+        app:layout_heightPercent="85%"
+        >
+    </android.support.v4.view.ViewPager>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#b3000000"
+        android:layout_below="@id/mainVP"
+        />
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="9%"
+        android:layout_alignParentBottom="true"
+        >
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:id="@+id/mainGroup"
+            >
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:text="@string/weixin"
+                android:gravity="center"
+                android:id="@+id/main_weixin"
+                android:checked="true"
+                android:drawableTop="@drawable/tab_weixin"
+                />
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:text="@string/contacts"
+                android:gravity="center"
+                android:id="@+id/main_contacts"
+                android:drawableTop="@drawable/tab_contact_list"
+                />
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:text="@string/discover"
+                android:gravity="center"
+                android:id="@+id/main_discover"
+                android:drawableTop="@drawable/tab_find"
+                />
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:text="@string/me"
+                android:gravity="center"
+                android:id="@+id/main_me"
+                android:drawableTop="@drawable/tab_profile"
+                />
+        </RadioGroup>
+    </android.support.percent.PercentRelativeLayout>
+    <TextView
+        android:layout_height="20dp"
+        android:layout_width="20dp"
+        android:text="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:id="@+id/main_unread_msg"
+        android:background="@drawable/tab_unread_count_bg"
+        app:layout_marginLeftPercent="15.5%"
+        app:layout_marginTopPercent="92.5%"
+        />
+</android.support.percent.PercentRelativeLayout>

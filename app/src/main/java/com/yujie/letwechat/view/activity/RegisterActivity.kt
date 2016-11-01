@@ -2,14 +2,12 @@ package com.yujie.letwechat.view.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.yujie.letwechat.R
 import com.yujie.letwechat.ifs.IRegisterView
 import com.yujie.letwechat.presenter.RegisterPre
 import com.yujie.letwechat.utils.common_utils.KstartActivity
 import com.yujie.letwechat.utils.common_utils.invalidEmpty
-import com.yujie.letwechat.utils.common_utils.isNumber
 import com.yujie.letwechat.utils.common_utils.showShortToast
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.layout_title.*

@@ -1,5 +1,7 @@
 package com.yujie.letwechat.widget;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,9 +20,6 @@ import android.widget.TextView;
 
 import com.yujie.letwechat.R;
 import com.yujie.letwechat.adapter.ViewHolder;
-
-import java.util.ArrayList;
-
 
 
 /**
@@ -78,14 +77,14 @@ public class TitlePopup extends PopupWindow {
 		mScreenHeight = wm.getDefaultDisplay().getHeight();
 
 		// 设置弹窗的宽度和高度
-		setWidth((int)(mScreenWidth*0.6));
+		setWidth(width);
 		setHeight(height);
 
 		setBackgroundDrawable(new BitmapDrawable());
 
 		// 设置弹窗的布局界面
 		setContentView(LayoutInflater.from(mContext).inflate(
-				R.layout.view_title_popup, null));
+				R.layout.title_popup, null));
 		setAnimationStyle(R.style.AnimHead);
 		initUI();
 	}
@@ -152,7 +151,7 @@ public class TitlePopup extends PopupWindow {
 				// 设置文本居中
 				 textView.setGravity(Gravity.CENTER_VERTICAL);
 				// // 设置文本域的范围
-				 textView.setPadding(0, 10, 0, 10);
+				// textView.setPadding(0, 10, 0, 10);
 				// 设置文本在一行内显示（不换行）
 				textView.setSingleLine(true);
 
@@ -162,7 +161,7 @@ public class TitlePopup extends PopupWindow {
 				textView.setText(item.mTitle);
 				if (item.mDrawable != null) {
 					// 设置文字与图标的间隔
-					textView.setCompoundDrawablePadding(20);
+					textView.setCompoundDrawablePadding(10);
 					// 设置在文字的左边放一个图标
 					textView.setCompoundDrawablesWithIntrinsicBounds(
 							item.mDrawable, null, null, null);
