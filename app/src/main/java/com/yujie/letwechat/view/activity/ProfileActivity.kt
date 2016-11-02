@@ -8,7 +8,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yujie.kotlinfulicenter.model.bean.RetDataBean
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
+import com.yujie.letwechat.utils.common_utils.Kfinish
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.costum_titlebar_layout.*
 
 class ProfileActivity : AppCompatActivity() {
     val TAG : String = ProfileActivity::class.java.simpleName
@@ -28,6 +30,9 @@ class ProfileActivity : AppCompatActivity() {
         btn_sendmsg.setOnClickListener {
             //TODO go chatActivity here
             Log.e(TAG,"sendMsgListener here go chatActivity")
+        }
+        left_btn.setOnClickListener{
+            Kfinish(this)
         }
     }
 

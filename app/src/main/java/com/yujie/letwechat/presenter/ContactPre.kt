@@ -131,6 +131,7 @@ class ContactPre(val context: Context,
                     0       ->  {
                         holder.getView<LinearLayout>(R.id.contact_item_root).setOnClickListener {
                             //TODO go addfriend activity
+                            view.goFriendMsgActivity()
                         }
                     }
                     1       ->  {

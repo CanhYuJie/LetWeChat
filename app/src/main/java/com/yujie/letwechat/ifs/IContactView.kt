@@ -7,4 +7,5 @@ import com.yujie.kotlinfulicenter.model.bean.RetDataBean
  */
 interface IContactView {
     fun goProfileActivity(t:RetDataBean)
+    fun goFriendMsgActivity()
 }

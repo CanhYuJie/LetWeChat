@@ -14,7 +14,7 @@
         app:layout_heightPercent="6%"
         app:title_text_color="@color/white"
         app:title_text="@string/app_name"
-        app:show_left_btn="false"
+        app:show_left_btn="true"
         app:title_text_size="10dp"
         android:id="@+id/titlebar"
         >
