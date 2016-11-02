@@ -11,6 +11,8 @@ import com.yujie.kotlinfulicenter.model.bean.RetDataBean
 import com.yujie.letwechat.R
 import com.yujie.letwechat.ifs.IContactView
 import com.yujie.letwechat.presenter.ContactPre
+import com.yujie.letwechat.utils.common_utils.KstartActivity
+import com.yujie.letwechat.view.activity.ProfileActivity
 import kotlinx.android.synthetic.main.fragment_contact.*
 
 class ContactFragment : Fragment(),IContactView{
@@ -26,5 +28,9 @@ class ContactFragment : Fragment(),IContactView{
         super.onViewCreated(view, savedInstanceState)
         pre = ContactPre(activity,this,contact_rec)
         pre?.initData2()
+    }
+
+    override fun goProfileActivity(t: RetDataBean) {
+        KstartActivity(activity,ProfileActivity::class.java,"frindeProfile",t)
     }
 }
