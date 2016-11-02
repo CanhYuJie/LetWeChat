@@ -83,15 +83,8 @@ class App : Application(){
         initChatOptions(options)
         EMClient.getInstance().init(applicationContext,options)
         EMClient.getInstance().setDebugMode(true)
-        addConnectionListener()
     }
 
-    /**
-     * add connection state listener
-     */
-    private fun addConnectionListener() {
-        EMClient.getInstance().addConnectionListener(KConnectionListener())
-    }
 
     /**
      * set autologin and add friends need pass Invitation
@@ -99,31 +92,6 @@ class App : Application(){
     private fun initChatOptions(options: EMOptions) {
         options.acceptInvitationAlways = true
         options.autoLogin = true
-        Log.e(TAG,"onCreate +++++++++")
     }
 
-    class KConnectionListener : EMConnectionListener{
-        override fun onConnected() {
-            // TODO do something here,like sync group info and user info
-        }
-
-        override fun onDisconnected(error: Int) {
-            when{
-                error == EMError.USER_REMOVED   ->  {
-                    showErrorToast(R.string.account_removed)
-                }
-                error == EMError.USER_LOGIN_ANOTHER_DEVICE  ->  {
-                    showErrorToast(R.string.user_login_another_device)
-                }
-                error == EMError.SERVER_SERVICE_RESTRICTED  ->  {
-                    showErrorToast(R.string.user_forbidden)
-                }
-            }
-        }
-
-        private fun showErrorToast(stringId: Int) {
-            showLongToastRes(initInstance().getLastActivity().applicationContext,stringId)
-        }
-
-    }
 }

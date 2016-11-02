@@ -1,8 +1,10 @@
 package com.yujie.letwechat.utils.net_utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import android.os.Handler
 import android.os.Message
 import android.util.Log
@@ -10,6 +12,8 @@ import com.google.gson.Gson
 import com.yujie.letwechat.I
 import okhttp3.*
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URLConnection
 import java.net.URLEncoder
@@ -342,7 +346,7 @@ class OkHttpUtils<T>(context: Context){
     /**
      * use to download message
      */
-    fun downloadImage(imgUrl: String): Bitmap? {
+    fun downloadImage(activity: Activity,username:String,avatrType: String,imgUrl: String): Bitmap? {
         try {
             val client = OkHttpClient()
             val request = Request.Builder().url(imgUrl).build()
@@ -350,7 +354,23 @@ class OkHttpUtils<T>(context: Context){
             val ins = response?.body()?.byteStream()
             Log.e(TAG, "setInfo: " + ins + "\n" + response + "\n" + imgUrl)
             val bm = BitmapFactory.decodeStream(ins)
-            return bm
+            if (bm != null) {
+                val file = getAvatarPath(activity,avatrType,username+".jpg")
+                Log.e(TAG,"保存的文件地址是"+file.absolutePath)
+                if (!file.parentFile.exists()) {
+                    Log.e(TAG,"downloadImage "+"照片保存失败,保存的路径不存在")
+                    return bm
+                }
+                var out: FileOutputStream? = null
+                try {
+                    out = FileOutputStream(file)
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                    Log.e(TAG, "头像保存失败")
+                }
+                return bm
+            }
         }catch (e:Exception){
             Log.e(TAG,"downloadImage :-> $e")
         }
@@ -380,5 +400,18 @@ class OkHttpUtils<T>(context: Context){
         val DOWNLOAD_START = 2
         val DOWNLOADING = 3
         val DOWNLOAD_FINISH = 4
+    }
+
+    /**
+     * get avatar path,if not exist,create
+     */
+    fun getAvatarPath(activity: Activity, avatrType: String, fielName: String): File {
+        var dir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        dir = File(dir, avatrType)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        val file = File(dir, fielName)
+        return file
     }
 }

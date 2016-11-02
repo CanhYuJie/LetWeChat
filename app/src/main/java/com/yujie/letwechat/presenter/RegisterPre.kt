@@ -2,6 +2,7 @@ package com.yujie.letwechat.presenter
 
 import android.content.Context
 import android.os.Looper
+import android.util.Log
 import com.hyphenate.EMError
 import com.hyphenate.chat.EMClient
 import com.hyphenate.exceptions.HyphenateException
@@ -9,6 +10,8 @@ import com.yujie.kotlinfulicenter.model.bean.Result
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.ifs.IRegisterView
+import com.yujie.letwechat.utils.common_utils.MD5
+import com.yujie.letwechat.utils.common_utils.SHA1
 import com.yujie.letwechat.utils.common_utils.showLongToast
 import com.yujie.letwechat.utils.common_utils.showShortToastRes
 import com.yujie.letwechat.utils.net_utils.OkHttpUtils
@@ -18,12 +21,13 @@ import kotlin.concurrent.thread
  * Created by yujie on 16-11-1.
  */
 class RegisterPre(val context: Context,val view: IRegisterView) {
+    val TAG : String = RegisterPre::class.java.simpleName
     fun registerLocal(userName : String, userNick : String,password : String) : Unit {
         val util = OkHttpUtils<Result>(context)
         util.setRequestUrl(I.REQUEST_REGISTER)
             .addParams(I.User.USER_NAME,userName)
             .addParams(I.User.NICK,userNick)
-            .addParams(I.User.PASSWORD,password)
+            .addParams(I.User.PASSWORD, MD5.getData(userName+password))
             .targetClass(Result::class.java)
             .post()
             .execute(object :OkHttpUtils.OnCompleteListener<Result>{
@@ -45,7 +49,7 @@ class RegisterPre(val context: Context,val view: IRegisterView) {
     private fun registerHXServer(userName: String, password: String) {
         thread {
             try {
-                EMClient.getInstance().createAccount(userName,password)
+                EMClient.getInstance().createAccount(userName,MD5.getData(userName+password))
                 view.registerSuccess(userName)
             }catch (e : HyphenateException){
                 val errorCode = e.errorCode

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.animation.AlphaAnimation
 import com.hyphenate.chat.EMClient
 import com.yujie.kotlinfulicenter.model.bean.Result
+import com.yujie.letwechat.App
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.db.DBHelper
@@ -61,7 +62,9 @@ class SplashActivty : AppCompatActivity() {
             .execute(object : OkHttpUtils.OnCompleteListener<Result>{
                 override fun onSuccess(result: Result) {
                     if (result != null && result.retMsg) {
-                        if (DBHelper(this@SplashActivty).findLoginUser() != null) {
+                        val user = DBHelper(this@SplashActivty).findLoginUser()
+                        if (user != null) {
+                            App.initInstance().currentUser = user
                             hxIsLogin()
                         }else{
                             handler.sendEmptyMessageDelayed(GO_LOGIN,sleepTime.toLong())

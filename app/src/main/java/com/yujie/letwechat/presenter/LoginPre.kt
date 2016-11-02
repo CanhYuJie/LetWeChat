@@ -3,13 +3,17 @@ package com.yujie.letwechat.presenter
 import android.content.Context
 import android.os.Looper
 import android.util.Log
+import com.google.gson.Gson
 import com.hyphenate.EMCallBack
 import com.hyphenate.chat.EMClient
 import com.yujie.kotlinfulicenter.model.bean.Result
+import com.yujie.kotlinfulicenter.model.bean.RetDataBean
 import com.yujie.letwechat.App
 import com.yujie.letwechat.I
 import com.yujie.letwechat.db.DBHelper
 import com.yujie.letwechat.ifs.ILoginView
+import com.yujie.letwechat.utils.common_utils.MD5
+import com.yujie.letwechat.utils.common_utils.SHA1
 import com.yujie.letwechat.utils.net_utils.OkHttpUtils
 
 /**
@@ -21,7 +25,7 @@ class LoginPre(val context: Context, val view:ILoginView) {
         val utils = OkHttpUtils<Result>(context)
         utils.setRequestUrl(I.REQUEST_LOGIN)
              .addParams(I.User.USER_NAME,userName)
-             .addParams(I.User.PASSWORD,password)
+             .addParams(I.User.PASSWORD, MD5.getData(userName+password))
              .targetClass(Result::class.java)
              .execute(object : OkHttpUtils.OnCompleteListener<Result>{
                  override fun onError(msg: String) {
@@ -38,17 +42,18 @@ class LoginPre(val context: Context, val view:ILoginView) {
     }
 
     fun loginHXServer(userName: String, password: String, result: Result): Unit {
-        EMClient.getInstance().login(userName,password,object :EMCallBack{
+        EMClient.getInstance().login(userName, MD5.getData(userName+password),object :EMCallBack{
             override fun onSuccess() {
                 Log.e(TAG,"login HX server success")
                 EMClient.getInstance().groupManager().loadAllGroups()
                 EMClient.getInstance().chatManager().loadAllConversations()
-                App.initInstance().currentUser = result.retData
+                val retDataBean = Gson().fromJson(result.retData.toString(), RetDataBean::class.java)
+                App.initInstance().currentUser = retDataBean
                 if (DBHelper(context).findUserById(userName)!=null){
                     DBHelper(context).updateStatus(1,userName)
                     view.loginSuccess()
                 }else{
-                    DBHelper(context).addUser(result.retData!!,1)
+                    DBHelper(context).addUser(retDataBean,1)
                     view.loginSuccess()
                 }
             }

@@ -121,8 +121,10 @@
     <color name="commonReminder">#ffbdbab5</color>
     <color name="gray">#ff808080</color>
     <color name="gray2">#ffeef2fb</color>
+    <color name="grayblack">#0d0c0c</color>
     <color name="btn_blue_normal">#0c6fe7</color>
     <color name="btn_blue_pressed">#27b3da</color>
     <color name="btn_gry_normal">#05ffe2</color>
     <color name="btn_gray_pressed_status">#0b96bc</color>
+    <color name="normalgray">#ccc9c9</color>
 </resources>

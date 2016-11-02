@@ -1,14 +1,26 @@
 package com.yujie.letwechat.view.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import com.hyphenate.EMConnectionListener
+import com.hyphenate.EMError
+import com.hyphenate.chat.EMChatManager
+import com.hyphenate.chat.EMClient
+import com.hyphenate.chat.EMMessage
 import com.yujie.kotlinfulicenter.utils.convertDraw
+import com.yujie.letwechat.App
 import com.yujie.letwechat.R
+import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import com.yujie.letwechat.view.fragment.ChatFragment
 import com.yujie.letwechat.view.fragment.ContactFragment
 import com.yujie.letwechat.view.fragment.DiscoverFragment
@@ -29,6 +41,12 @@ class MainActivity : AppCompatActivity() {
         initChose()
         initTitlePop()
         initPopListener()
+        initReceiver()
+        Log.e(TAG,"onCreate ${App.initInstance().currentUser.toString()}")
+    }
+
+    private fun initReceiver() {
+        EMClient.getInstance().addConnectionListener(KConnectionListener())
     }
 
     private fun initPopListener() {
@@ -51,24 +69,21 @@ class MainActivity : AppCompatActivity() {
                             R.drawable.abv))
     }
 
-    private val itemclick = object : TitlePopup.OnItemOnClickListener{
-        override fun onItemClick(item: ActionItem?, position: Int) {
-            when(position){
-                0       ->  {
-                    //TODO create group chat
-                }
-                1       ->  {
-                    //TODO add new friend
-                }
-                2       ->  {
-                    //TODO scan qrcode
-                }
-                3       ->  {
-                    //TODO get money
-                }
+    private val itemclick = TitlePopup.OnItemOnClickListener { item, position ->
+        when(position){
+            0       ->  {
+                //TODO create group chat
+            }
+            1       ->  {
+                //TODO add new friend
+            }
+            2       ->  {
+                //TODO scan qrcode
+            }
+            3       ->  {
+                //TODO get money
             }
         }
-
     }
 
     private fun initChose() {
@@ -127,6 +142,58 @@ class MainActivity : AppCompatActivity() {
         convertDraw(this,main_contacts,R.drawable.tab_contact_list)
         convertDraw(this,main_discover,R.drawable.tab_find)
         convertDraw(this,main_me,R.drawable.tab_profile)
+    }
+
+
+    /**
+     * HX server connect state listener
+     */
+    class KConnectionListener : EMConnectionListener {
+        override fun onConnected() {
+            // TODO do something here,like sync group info and user info
+        }
+
+        override fun onDisconnected(error: Int) {
+            when (error) {
+                EMError.USER_REMOVED -> {
+                    showErrorToast(R.string.account_removed)
+                }
+                EMError.USER_LOGIN_ANOTHER_DEVICE -> {
+                    showErrorToast(R.string.user_login_another_device)
+                }
+                EMError.SERVER_SERVICE_RESTRICTED -> {
+                    showErrorToast(R.string.user_forbidden)
+                }
+            }
+        }
+
+        private fun showErrorToast(stringId: Int) {
+            showLongToastRes(App.initInstance().getLastActivity().applicationContext,stringId)
+        }
+
+    }
+
+    private class NewMsgReceiver() : BroadcastReceiver(){
+        override fun onReceive(context: Context, intent: Intent) {
+            val from = intent.getStringExtra("from")
+			// 消息id
+			val msgId = intent.getStringExtra("msgid")
+            val message = EMClient.getInstance().chatManager().getMessage(msgId)
+            // TODO if message.getTo() same as chatactivity,return
+            // TODO refresh message count here ,and if current fragment
+            // TODO is chatFragment,refresh fragment
+        }
+    }
+
+    fun updateUnreadLabel(): Unit {
+        var count = 0
+        count = EMClient.getInstance().chatManager().unreadMsgsCount
+        if (count > 0){
+            main_unread_msg.text = count.toString()
+            main_unread_msg.visibility = View.VISIBLE
+        }else{
+            main_unread_msg.visibility = View.GONE
+        }
     }
 
 }
