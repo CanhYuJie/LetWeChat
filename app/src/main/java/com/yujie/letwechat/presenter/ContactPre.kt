@@ -37,6 +37,20 @@ class ContactPre(val context: Context,
         initDefData()
     }
 
+    fun hasContent(): Boolean? {
+        if (contacts!=null && contacts.size > 3){
+            return true
+        }
+        return false
+    }
+
+    fun isFirstIn(): Boolean? {
+        if (contacts.size == 3){
+            return true
+        }
+        return false
+    }
+
     fun initDefData(): Unit {
         val newFriendLabel = RetDataBean("新的朋友",null, R.drawable.icon_addfriend,null,null,null,null)
         val groupChatLabel = RetDataBean("群聊",null, R.drawable.icon_qunliao,null,null,null,null)

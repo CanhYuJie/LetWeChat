@@ -3,6 +3,7 @@ package com.yujie.letwechat.view.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import com.yujie.letwechat.view.activity.FriendMsgActivity
 import com.yujie.letwechat.view.activity.ProfileActivity
 import kotlinx.android.synthetic.main.fragment_contact.*
 
-class ContactFragment : Fragment(),IContactView{
+class ContactFragment : IContactView,BaseFragment() {
     val TAG : String = ContactFragment::class.java.simpleName
     var pre : ContactPre? = null
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -26,13 +27,24 @@ class ContactFragment : Fragment(),IContactView{
         return view
     }
 
+    override fun lazyFetchData() {
+        super.lazyFetchData()
+        Log.e(TAG,"lazyFetchData 1111")
+    }
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        pre = ContactPre(activity,this,contact_rec)
+        if (isVisible){
+            Log.e(TAG,"onViewCreated "+pre?.hasContent())
+            if (pre?.hasContent()!! && !pre?.isFirstIn()!!){
+                pre?.initAdapter()
+            }else{
+                init()
+            }
+        }
     }
 
     fun init(): Unit {
-        pre = ContactPre(activity,this,contact_rec)
         pre?.initData2()
     }
     override fun goProfileActivity(t: RetDataBean) {
@@ -43,7 +55,5 @@ class ContactFragment : Fragment(),IContactView{
         KstartActivity(activity,FriendMsgActivity::class.java)
     }
 
-    fun refresh(){
-        init()
-    }
+
 }

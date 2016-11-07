@@ -12,7 +12,7 @@ import com.yujie.letwechat.R
 /**
  * A simple [Fragment] subclass.
  */
-class MeFragment : Fragment() {
+class MeFragment : BaseFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -20,4 +20,7 @@ class MeFragment : Fragment() {
         return inflater!!.inflate(R.layout.fragment_me, container, false)
     }
 
+    override fun lazyFetchData() {
+        super.lazyFetchData()
+    }
 }

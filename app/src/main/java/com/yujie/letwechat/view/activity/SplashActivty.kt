@@ -1,5 +1,6 @@
 package com.yujie.letwechat.view.activity
 
+import android.Manifest
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.db.DBHelper
 import com.yujie.letwechat.utils.common_utils.KstartActivity
+import com.yujie.letwechat.utils.common_utils.PermissionHelper
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import com.yujie.letwechat.utils.net_utils.OkHttpUtils
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -25,6 +27,7 @@ class SplashActivty : AppCompatActivity() {
     private var context : Context? = null
     private val GO_MAIN = 101
     private val GO_LOGIN = 102
+    val permission = PermissionHelper(this@SplashActivty)
     private val handler =object : Handler(){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
@@ -62,13 +65,27 @@ class SplashActivty : AppCompatActivity() {
             .execute(object : OkHttpUtils.OnCompleteListener<Result>{
                 override fun onSuccess(result: Result) {
                     if (result != null && result.retMsg) {
-                        val user = DBHelper(this@SplashActivty).findLoginUser()
-                        if (user != null) {
-                            App.initInstance().currentUser = user
-                            hxIsLogin()
-                        }else{
-                            handler.sendEmptyMessageDelayed(GO_LOGIN,sleepTime.toLong())
-                        }
+                        permission.requestPermissions("请授予[读写SD卡]权限！",
+                                object :PermissionHelper.PermissionListener{
+                                    override fun doAfterGrand(vararg permission: String?) {
+                                        Log.e(TAG,"doAfterDenied 没有权限")
+                                        finish()
+                                        System.exit(0)
+                                    }
+
+                                    override fun doAfterDenied(vararg permission: String?) {
+                                        val user = DBHelper(this@SplashActivty).findLoginUser()
+                                        if (user != null) {
+                                            App.initInstance().currentUser = user
+                                            hxIsLogin()
+                                        }else{
+                                            handler.sendEmptyMessageDelayed(GO_LOGIN,sleepTime.toLong())
+                                        }
+                                    }
+
+                                }, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS)
                     }
                 }
 
@@ -76,6 +93,11 @@ class SplashActivty : AppCompatActivity() {
                     showLongToastRes(this@SplashActivty,R.string.no_connection)
                 }
             })
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permission.handleRequestPermissionsResult(requestCode,permissions,grantResults)
     }
 
     private fun goLogin() {

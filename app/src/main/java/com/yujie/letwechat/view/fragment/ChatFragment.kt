@@ -9,7 +9,7 @@ import android.view.ViewGroup
 
 import com.yujie.letwechat.R
 
-class ChatFragment : Fragment() {
+class ChatFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -17,4 +17,7 @@ class ChatFragment : Fragment() {
         return inflater!!.inflate(R.layout.fragment_chat, container, false)
     }
 
+    override fun lazyFetchData() {
+        super.lazyFetchData()
+    }
 }
