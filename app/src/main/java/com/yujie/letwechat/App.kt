@@ -4,12 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import com.hyphenate.EMConnectionListener
-import com.hyphenate.EMError
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMOptions
-import com.yujie.kotlinfulicenter.model.bean.RetDataBean
-import com.yujie.letwechat.utils.common_utils.showLongToastRes
+import com.yujie.kotlinfulicenter.model.bean.User
 import java.util.*
 
 /**
@@ -17,8 +14,8 @@ import java.util.*
  */
 class App : Application(){
     val TAG : String = App::class.java.simpleName
-    private var context : Context? = null
     companion object {
+        var context : Context? = null
         private val instance = App()
         fun initInstance():App{
             return instance
@@ -28,7 +25,7 @@ class App : Application(){
     /**
      * set current user who has logined
      */
-    var currentUser : RetDataBean? = null
+    var currentUser : User? = null
 
     /**
      * it's important to use list to save per activity
@@ -78,7 +75,7 @@ class App : Application(){
      */
     override fun onCreate() {
         super.onCreate()
-        context = applicationContext
+          context = applicationContext
         val options = EMOptions()
         initChatOptions(options)
         EMClient.getInstance().init(applicationContext,options)

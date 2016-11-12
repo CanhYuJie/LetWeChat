@@ -146,7 +146,7 @@ fun getNetwokState(context: Context): Boolean {
         return false
     }else{
         val service : ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (service != null) {
+        if (service == null) {
             Log.e("GetNetworkState","couldn't get connectivity manager")
         }else{
             val networkInfo = service.allNetworkInfo

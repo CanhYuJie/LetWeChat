@@ -1,16 +1,97 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/normalgray"
     tools:context="com.yujie.letwechat.view.fragment.ContactFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:id="@+id/new_friend_root"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_addfriend"
+            android:id="@+id/new_friend_icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_friend_menu"
+            android:textColor="@color/deep_black"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/new_friend_icon"
+            android:layout_marginLeft="7dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:layout_marginTop="1.5dp"
+        android:id="@+id/group_chat_root"
+        android:layout_below="@id/new_friend_root"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_qunliao"
+            android:id="@+id/group_chat_icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_chats"
+            android:textColor="@color/deep_black"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/group_chat_icon"
+            android:layout_marginLeft="7dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:layout_marginTop="1.5dp"
+        android:id="@+id/public_group_root"
+        android:layout_below="@id/group_chat_root"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_public"
+            android:id="@+id/public_group"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/public_group_label"
+            android:textColor="@color/deep_black"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/public_group"
+            android:layout_marginLeft="7dp"
+            />
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/contact_rec"
+        android:layout_marginTop="1dp"
+        android:layout_below="@id/public_group_root"
         >
 
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</RelativeLayout>

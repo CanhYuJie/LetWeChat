@@ -9,12 +9,15 @@ import com.hyphenate.exceptions.HyphenateException
 import com.yujie.kotlinfulicenter.model.bean.Result
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
-import com.yujie.letwechat.ifs.IRegisterView
+import com.yujie.letwechat.api.ApiFactory
+import com.yujie.letwechat.view.iview.IRegisterView
 import com.yujie.letwechat.utils.common_utils.MD5
 import com.yujie.letwechat.utils.common_utils.SHA1
 import com.yujie.letwechat.utils.common_utils.showLongToast
 import com.yujie.letwechat.utils.common_utils.showShortToastRes
 import com.yujie.letwechat.utils.net_utils.OkHttpUtils
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import kotlin.concurrent.thread
 
 /**
@@ -22,80 +25,62 @@ import kotlin.concurrent.thread
  */
 class RegisterPre(val context: Context,val view: IRegisterView) {
     val TAG : String = RegisterPre::class.java.simpleName
-    fun registerLocal(userName : String, userNick : String,password : String) : Unit {
-        val util = OkHttpUtils<Result>(context)
-        util.setRequestUrl(I.REQUEST_REGISTER)
-            .addParams(I.User.USER_NAME,userName)
-            .addParams(I.User.NICK,userNick)
-            .addParams(I.User.PASSWORD, MD5.getData(userName+password))
-            .targetClass(Result::class.java)
-            .post()
-            .execute(object :OkHttpUtils.OnCompleteListener<Result>{
-                override fun onSuccess(result: Result) {
-                    if (result != null && result.retMsg) {
-                        registerHXServer(userName,password)
-                    }else{
-                        view.registerFailed(context.getString(R.string.user_exist))
-                    }
-                }
-
-                override fun onError(msg: String) {
-                    view.registerFailed(msg)
-                }
-
-            })
+    val register_service = ApiFactory.getNetApiInstance()
+    fun registerLocal(userName : String,userUid: String, userNick : String,password : String) : Unit {
+        register_service!!.register(userName,userUid,userNick,MD5.getData(userName+password))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({result ->
+                            if (result != null && result.flag) {
+                                registerHXServer(userNick,password)
+                            }else{
+                                view.registerFailed(context.getString(R.string.user_exist))
+                            }
+                        },{msg ->
+                            view.registerFailed(msg.message.toString())
+                        })
     }
 
-    private fun registerHXServer(userName: String, password: String) {
+    private fun registerHXServer(usernick: String, password: String) {
         thread {
             try {
-                EMClient.getInstance().createAccount(userName,MD5.getData(userName+password))
-                view.registerSuccess(userName)
+                EMClient.getInstance().createAccount(usernick,MD5.getData(usernick+password))
+                view.registerSuccess(usernick)
             }catch (e : HyphenateException){
                 val errorCode = e.errorCode
                 when(errorCode){
                     EMError.NETWORK_ERROR       ->  {
                         val msg = context.getString(R.string.no_connection)
-                        unRegister(userName,msg)
+                        unRegister(usernick,msg)
                     }
                     EMError.USER_ALREADY_EXIST  ->  {
                         val msg = context.getString(R.string.user_exist)
-                        unRegister(userName,msg)
+                        unRegister(usernick,msg)
                     }
                     EMError.USER_AUTHENTICATION_FAILED  ->  {
                         val msg = context.getString(R.string.no_permission)
-                        unRegister(userName, msg)
+                        unRegister(usernick, msg)
                     }
                     EMError.USER_ILLEGAL_ARGUMENT   ->  {
                         val msg = context.getString(R.string.username_invalid_failed)
-                        unRegister(userName, msg)
+                        unRegister(usernick, msg)
                     }
                     else        ->  {
                         val msg = context.getString(R.string.register_failed)
-                        unRegister(userName, msg)
+                        unRegister(usernick, msg)
                     }
                 }
             }
         }
     }
 
-    fun unRegister(username: String, msg: String): Unit {
-        val util = OkHttpUtils<Result>(context)
-        util.setRequestUrl(I.REQUEST_UNREGISTER)
-                .addParams(I.User.USER_NAME,username)
-                .targetClass(Result::class.java)
-                .execute(object :OkHttpUtils.OnCompleteListener<Result>{
-                    override fun onSuccess(result: Result) {
-                        if (result != null) {
-                            view.registerFailed(msg)
-                        }
-                    }
-
-                    override fun onError(msg: String) {
-                        view.registerFailed(context.getString(R.string.register_failed))
-                        showLongToast(context,"取消注册本地服务器失败，请联系管理员,注册失败")
-                    }
-
-                })
+    fun unRegister(usernick: String, msg: String): Unit {
+        register_service!!.unregister(usernick)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({result ->
+                            if (result != null) { view.registerFailed(msg) }
+                            else{ view.registerFailed(context.getString(R.string.unregister_failed)) }
+                        }, {msg -> view.registerFailed(context.getString(R.string.unregister_failed)) })
     }
 }

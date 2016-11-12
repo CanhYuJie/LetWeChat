@@ -5,26 +5,28 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.yujie.kotlinfulicenter.model.bean.RetDataBean
+import com.yujie.kotlinfulicenter.model.bean.User
 
 /**
  * Created by yujie on 16-10-31.
  */
 class DBHelper(
         context: Context?)
-        : SQLiteOpenHelper(context,"superwechat.db",null,1){
+        : SQLiteOpenHelper(context,"letwechat.db",null,1){
     val TAG : String = DBHelper::class.java.simpleName
 
     override fun onCreate(db: SQLiteDatabase) {
         val user_sql = "create table if not exists t_user( " +
-                "muserName char(20) primary key," +
-                "muserNick char(20) not null," +
-                "mavatarId Integer not null," +
-                "mavatarPath char(20)," +
-                "mavatarSuffix char(20)," +
-                "mavatarType Integer," +
+                "name char(20) primary key," +
+                "uid char(11) not null," +
+                "sex char(5)," +
+                "b_class char(20)," +
+                "b_department char(20)," +
+                "b_bedroom Integer," +
                 "status Integer,"+
-                "mavatarLastUpdateTime char(20)" +
+                "user_nick char(20)," +
+                "password char(16)," +
+                "avatar char(20) " +
                 ");"
         db.execSQL(user_sql)
     }
@@ -33,17 +35,19 @@ class DBHelper(
 
     }
 
-    fun addUser(user: RetDataBean, status: Int): Boolean {
+    fun addUser(user: User, status: Int): Boolean {
+        Log.e(TAG,"addUser "+user.toString())
         val db = writableDatabase
         val values = ContentValues()
-        values.put("muserName", user.muserName)
-        values.put("muserNick", user.muserNick)
-        values.put("mavatarId", user.mavatarId)
-        values.put("mavatarPath", user.mavatarPath)
-        values.put("mavatarSuffix", user.mavatarSuffix)
-        values.put("mavatarType", user.mavatarType)
-        values.put("mavatarLastUpdateTime", user.mavatarLastUpdateTime)
+        values.put("name", user.name)
+        values.put("uid", user.uid)
+        values.put("sex", user.sex)
+        values.put("b_class", user.b_class)
+        values.put("b_department", user.b_department)
+        values.put("b_bedroom", user.b_bedroom)
+        values.put("user_nick", user.user_nick)
         values.put("status", status)
+        values.put("password",user.password)
         val insert = db.insert("t_user", null, values)
         Log.e(TAG, "addUser: " + insert)
         return insert > 0
@@ -53,42 +57,44 @@ class DBHelper(
         val db = writableDatabase
         val values = ContentValues()
         values.put("status", status)
-        val update = db.update("t_user", values, "muserName=?", arrayOf(uid))
+        val update = db.update("t_user", values, "user_nick=?", arrayOf(uid))
         Log.e(TAG, "updateStatus: " + update)
         return update > 0
     }
 
-    fun findLoginUser(): RetDataBean? {
+    fun findLoginUser(): User? {
         val db = readableDatabase
         val sql = "select * from t_user where status=1"
         val cursor = db.rawQuery(sql, null)
         while (cursor.moveToNext()) {
-            val muserName = cursor.getString(cursor.getColumnIndex("muserName"))
-            val muserNick = cursor.getString(cursor.getColumnIndex("muserNick"))
-            val mavatarId = cursor.getInt(cursor.getColumnIndex("mavatarId"))
-            val mavatarPath = cursor.getString(cursor.getColumnIndex("mavatarPath"))
-            val mavatarSuffix = cursor.getString(cursor.getColumnIndex("mavatarSuffix"))
-            val mavatarType = cursor.getInt(cursor.getColumnIndex("mavatarType"))
-            val mavatarLastUpdateTime = cursor.getString(cursor.getColumnIndex("mavatarLastUpdateTime"))
-            val user = RetDataBean(muserName,muserNick,mavatarId,mavatarPath,mavatarSuffix,mavatarType,mavatarLastUpdateTime)
+            val name = cursor.getString(cursor.getColumnIndex("name"))
+            val uid = cursor.getString(cursor.getColumnIndex("uid"))
+            val sex = cursor.getString(cursor.getColumnIndex("sex"))
+            val b_class = cursor.getString(cursor.getColumnIndex("b_class"))
+            val b_department = cursor.getString(cursor.getColumnIndex("b_department"))
+            val b_bedroom = cursor.getString(cursor.getColumnIndex("b_bedroom"))
+            val user_nick = cursor.getString(cursor.getColumnIndex("user_nick"))
+            val password = cursor.getString(cursor.getColumnIndex("password"))
+            val user = User(name,uid,sex,b_class,b_department,b_bedroom,user_nick,null,password)
             return user
         }
         return null
     }
 
-    fun findUserById(id:String): RetDataBean? {
+    fun findUserById(id:String): User? {
         val db = readableDatabase
-        val sql = "select * from t_user where muserName=?"
+        val sql = "select * from t_user where uid=?"
         val cursor = db.rawQuery(sql,arrayOf(id))
         while (cursor.moveToNext()) {
-            val muserName = cursor.getString(cursor.getColumnIndex("muserName"))
-            val muserNick = cursor.getString(cursor.getColumnIndex("muserNick"))
-            val mavatarId = cursor.getInt(cursor.getColumnIndex("mavatarId"))
-            val mavatarPath = cursor.getString(cursor.getColumnIndex("mavatarPath"))
-            val mavatarSuffix = cursor.getString(cursor.getColumnIndex("mavatarSuffix"))
-            val mavatarType = cursor.getInt(cursor.getColumnIndex("mavatarType"))
-            val mavatarLastUpdateTime = cursor.getString(cursor.getColumnIndex("mavatarLastUpdateTime"))
-            val user = RetDataBean(muserName,muserNick,mavatarId,mavatarPath,mavatarSuffix,mavatarType,mavatarLastUpdateTime)
+            val name = cursor.getString(cursor.getColumnIndex("name"))
+            val uid = cursor.getString(cursor.getColumnIndex("uid"))
+            val sex = cursor.getString(cursor.getColumnIndex("sex"))
+            val b_class = cursor.getString(cursor.getColumnIndex("b_class"))
+            val b_department = cursor.getString(cursor.getColumnIndex("b_department"))
+            val b_bedroom = cursor.getString(cursor.getColumnIndex("b_bedroom"))
+            val user_nick = cursor.getString(cursor.getColumnIndex("user_nick"))
+            val password = cursor.getString(cursor.getColumnIndex("password"))
+            val user = User(name,uid,sex,b_class,b_department,b_bedroom,user_nick,null,password)
             return user
         }
         return null

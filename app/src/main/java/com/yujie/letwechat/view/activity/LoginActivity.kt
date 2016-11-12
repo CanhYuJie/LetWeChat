@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.yujie.letwechat.R
-import com.yujie.letwechat.ifs.ILoginView
+import com.yujie.letwechat.view.iview.ILoginView
 import com.yujie.letwechat.presenter.LoginPre
 import com.yujie.letwechat.utils.common_utils.*
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity(),ILoginView{
+class LoginActivity : AppCompatActivity(), ILoginView {
     val TAG : String = LoginActivity::class.java.simpleName
     val pre : LoginPre = LoginPre(this,this)
     override fun onCreate(savedInstanceState: Bundle?) {
