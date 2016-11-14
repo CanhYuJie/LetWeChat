@@ -75,7 +75,7 @@ interface I {
 
         const val SERVER_ROOT = "http://115.29.33.91:8080/StudentManagerServer/"
         const val AVATAR_SERVER_ROOT = "http://115.29.33.91:8080/StudentManagerServer/avatar/"
-        const val MANAGER_SERVER_ROOT = "http://115.29.33.91:8080/StudentManagerServer/Server?"
+        const val MANAGER_SERVER = "Server"
         const val JPGFORMAT = ".jpg"
         //  const val SERVER_ROOT = "http://101.251.196.90:8000/SuperWeChatServerV2.0/"
         /** 客户端发送的获取服务端状态的请求  */

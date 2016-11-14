@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
@@ -103,6 +104,14 @@ fun <T>KstartActivity(activity : Activity, cls : Class<T>,
             R.anim.push_left_out)
 }
 fun <T>KstartActivity(activity : Activity, cls : Class<T>) {
+    val intent = Intent()
+    intent.setClass(activity,cls)
+    activity.startActivity(intent)
+    activity.overridePendingTransition(R.anim.push_left_in,
+            R.anim.push_left_out)
+}
+
+fun <T>KstartActivity(activity : FragmentActivity, cls : Class<T>) {
     val intent = Intent()
     intent.setClass(activity,cls)
     activity.startActivity(intent)

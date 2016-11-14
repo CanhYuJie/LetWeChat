@@ -7,6 +7,7 @@ import com.yujie.letwechat.I
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import rx.Observable
 import java.util.*
 
@@ -34,4 +35,6 @@ interface ApiService {
     fun unregister(@Query(I.User.NICK) nick: String): Observable<Result>
     @GET(I.REQUEST_DOWNLOAD_CONTACT_ALL_LIST)
     fun getContacts(@Query(I.Contact.M_UID) m_uid: String): Observable<ArrayList<User>>
+    @GET(I.MANAGER_SERVER)
+    fun getProfile(@QueryMap par:Map<String,String>): Observable<Result>
 }

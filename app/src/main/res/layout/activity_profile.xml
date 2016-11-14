@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yujie.letwechat.view.activity.ProfileActivity">
+    tools:context="com.yujie.letwechat.view.activity.UserDetailActivity">
 
     <com.yujie.letwechat.widget.CustomTitleBar
         android:layout_width="match_parent"
@@ -66,14 +66,25 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_accout"
+                android:id="@+id/tv_account_hint"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/ll_name"
                 android:layout_toRightOf="@id/iv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="微信号：wx416465413"
+                android:text="微信号："
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_accout"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/ll_name"
+                android:layout_toRightOf="@id/tv_account_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="wx416465413"
                 android:textColor="#AAAAAA"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -92,12 +103,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
-                android:text="地区"
+                android:text="系部"
                 android:textColor="#AAAAAA"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_region"
+                android:id="@+id/tv_department"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -126,12 +137,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
-                android:text="个性签名"
+                android:text="班级"
                 android:textColor="#AAAAAA"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_sign"
+                android:id="@+id/tv_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

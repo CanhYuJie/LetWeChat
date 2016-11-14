@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yujie.letwechat.widget.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yujie.letwechat.view.activity.ProfileActivity">
+
+    <com.yujie.letwechat.widget.CustomTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="6%"
+        app:title_text_color="@color/white"
+        app:title_text="@string/app_name"
+        app:show_left_btn="true"
+        app:title_text_size="10dp"
+        android:id="@+id/titlebar"
+        >
+    </com.yujie.letwechat.widget.CustomTitleBar>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp" >
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/head" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_name_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="姓名"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_name_hint"
+                android:text="安徽  合肥"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_uid_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="学号"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_uid_hint"
+                android:text="喜欢就好"
+                android:singleLine="true"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_user_nick_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="登录名"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_user_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_user_nick_hint"
+                android:text="安徽  合肥"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_sex_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="性别"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_sex_hint"
+                android:text="安徽  合肥"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_b_class_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="班级"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_b_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_b_class_hint"
+                android:text="安徽  合肥"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_department_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="系部"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_department"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_department_hint"
+                android:text="安徽  合肥"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" >
+
+            <TextView
+                android:id="@+id/tv_bedroom_hint"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="寝室"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_bedroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_bedroom_hint"
+                android:text="安徽  合肥"
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/btn_bg_green"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp"
+            android:text="确定"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+</com.yujie.letwechat.widget.PercentLinearLayout>

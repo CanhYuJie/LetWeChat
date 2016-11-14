@@ -1,6 +1,7 @@
 package com.yujie.letwechat.view.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import com.yujie.kotlinfulicenter.model.bean.User
 
 import com.yujie.letwechat.R
 import com.yujie.letwechat.presenter.ContactPre
+import com.yujie.letwechat.utils.common_utils.KstartActivity
+import com.yujie.letwechat.view.activity.UserDetailActivity
 import com.yujie.letwechat.view.iview.IContactView
 import kotlinx.android.synthetic.main.fragment_contact.*
 
@@ -51,5 +54,6 @@ class ContactFragment :BaseFragment(),IContactView {
     }
 
     override fun goProfileActivity(t: User) {
+        KstartActivity(activity,UserDetailActivity::class.java,"user_tag",t)
     }
 }

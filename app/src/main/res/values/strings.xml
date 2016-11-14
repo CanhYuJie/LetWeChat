@@ -25,7 +25,20 @@
     <string name="menu_addfriend">添加朋友</string>
     <string name="menu_qrcode">扫一扫</string>
     <string name="menu_money">微信钱包</string>
-
+    <string name="wechat_id">微信号</string>
+    <string name="my_posts">相册</string>
+    <string name="collection">收藏</string>
+    <string name="wallet">钱包</string>
+    <string name="card_bag">卡包</string>
+    <string name="expression2">表情</string>
+    <string name="settings">设置</string>
+    <string name="moments">朋友圈</string>
+    <string name="scan">扫一扫</string>
+    <string name="shake2">摇一摇</string>
+    <string name="people_nearby">附近的人</string>
+    <string name="drift_bottle">漂流瓶</string>
+    <string name="shopping">购物</string>
+    <string name="games">游戏</string>
     <!-- Login-->
     <string name="countries_and_areas">国家和地区</string>
     <string name="login_txt_china">中国</string>
