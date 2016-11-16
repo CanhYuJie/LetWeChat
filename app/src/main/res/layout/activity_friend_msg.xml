@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/normalgray"
     android:orientation="vertical"
-    tools:context="com.yujie.letwechat.view.activity.FriendMsgActivity">
+    tools:context="com.yujie.letwechat.ui.activity.FriendMsgActivity">
 
     <com.yujie.letwechat.widget.CustomTitleBar
         android:layout_width="match_parent"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/normalgray"
-    tools:context="com.yujie.letwechat.view.fragment.ContactFragment">
+    tools:context="com.yujie.letwechat.ui.fragment.ContactFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

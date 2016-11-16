@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yujie.letwechat.view.activity.ProfileActivity">
+    tools:context="com.yujie.letwechat.ui.activity.ProfileActivity">
 
     <com.yujie.letwechat.widget.CustomTitleBar
         android:layout_width="match_parent"
@@ -58,13 +58,14 @@
                 android:textColor="#AAAAAA"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_name_hint"
                 android:text="安徽  合肥"
+                android:background="@null"
                 android:textColor="#AAAAAA"
                 android:textSize="14sp" />
 
@@ -93,14 +94,14 @@
                 android:textColor="#AAAAAA"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_uid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_uid_hint"
                 android:text="喜欢就好"
-                android:singleLine="true"
+                android:background="@null"
                 android:textColor="#AAAAAA"
                 android:textSize="14sp" />
 
@@ -128,13 +129,15 @@
                 android:textColor="#AAAAAA"
                 android:textSize="16sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_user_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_user_nick_hint"
+                android:enabled="false"
                 android:text="安徽  合肥"
+                android:background="@null"
                 android:textColor="#AAAAAA"
                 android:textSize="14sp" />
 

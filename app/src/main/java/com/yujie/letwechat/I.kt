@@ -20,6 +20,19 @@ interface I {
         }
     }
 
+    interface Student{
+        companion object{
+            const val NAME = "name"
+            const val UID = "uid"
+            const val SEX = "sex"
+            const val BCLASS = "bclass"
+            const val BDEPARTMENT = "bdepartment"
+            const val BBEDROOM = "bbedroom"
+            const val USER_NICK = "user_nick"
+            const val MARK = "mark"
+        }
+    }
+
     interface Group {
         companion object {
             const val TABLE_NAME = "t_superwechat_group"
@@ -72,7 +85,9 @@ interface I {
     }
 
     companion object {
-
+        const val CLIENT = "cahn"
+        const val OPT_USER = "optUser"
+        const val REQUEST_KEY = "request"
         const val SERVER_ROOT = "http://115.29.33.91:8080/StudentManagerServer/"
         const val AVATAR_SERVER_ROOT = "http://115.29.33.91:8080/StudentManagerServer/avatar/"
         const val MANAGER_SERVER = "Server"
@@ -102,6 +117,9 @@ interface I {
         const val REQUEST_DELETE_CONTACT = "deleteContact"
         /** 客户端发送的根据用户名查找用户信息的请求  */
         const val REQUEST_FIND_USER = "findUserByUserName"
-        /** 客户端发送的创建群组的请求  */
+        const val REQUEST_GET_ALL_CLASS = "getClass"
+        const val REQUEST_GET_ALL_DEPARTMENT = "getDepartment"
+        const val REQUEST_GET_ALL_BEDROOM = "getBedRoomInfo"
+        const val REQUEST_UPDATE_USER = "modStuInfo"
     }
 }

@@ -19,3 +19,10 @@ data class User(val name: String,
               val blackList: String?,
               val password: String?) : Serializable
 data class ResultData(val flag: Boolean,val msg: String?,val data:User?): Serializable
+data class ClassObj(val className: String,
+                    val bMajor: String?,
+                    val bDepartment:String?) :Serializable
+data class BedRoom(val b_floor:String?,
+                   val b_area:String?,
+                   val intro: String?) :Serializable
+data class Department(val department:String) :Serializable

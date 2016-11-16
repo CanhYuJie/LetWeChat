@@ -10,7 +10,7 @@ import com.yujie.kotlinfulicenter.model.bean.Result
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.api.ApiFactory
-import com.yujie.letwechat.view.iview.IRegisterView
+import com.yujie.letwechat.ui.iview.IRegisterView
 import com.yujie.letwechat.utils.common_utils.MD5
 import com.yujie.letwechat.utils.common_utils.SHA1
 import com.yujie.letwechat.utils.common_utils.showLongToast

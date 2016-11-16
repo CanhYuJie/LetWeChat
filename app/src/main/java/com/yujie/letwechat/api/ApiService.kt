@@ -1,8 +1,6 @@
 package com.yujie.letwechat.api
 
-import com.yujie.kotlinfulicenter.model.bean.Result
-import com.yujie.kotlinfulicenter.model.bean.ResultData
-import com.yujie.kotlinfulicenter.model.bean.User
+import com.yujie.kotlinfulicenter.model.bean.*
 import com.yujie.letwechat.I
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -37,4 +35,15 @@ interface ApiService {
     fun getContacts(@Query(I.Contact.M_UID) m_uid: String): Observable<ArrayList<User>>
     @GET(I.MANAGER_SERVER)
     fun getProfile(@QueryMap par:Map<String,String>): Observable<Result>
+    @GET(I.MANAGER_SERVER)
+    fun getAllClass(@Query(I.REQUEST_KEY) request: String,
+                    @Query(I.OPT_USER) user:String): Observable<ArrayList<ClassObj>>
+    @GET(I.MANAGER_SERVER)
+    fun getAllBedroom(@Query(I.REQUEST_KEY) request: String,
+                      @Query(I.OPT_USER) user:String):Observable<ArrayList<BedRoom>>
+    @GET(I.MANAGER_SERVER)
+    fun getAllDepartment(@Query(I.REQUEST_KEY) request: String,
+                         @Query(I.OPT_USER) user:String):Observable<ArrayList<Department>>
+    @POST(I.MANAGER_SERVER)
+    fun updateUser(@QueryMap par: Map<String, String>):Observable<Result>
 }

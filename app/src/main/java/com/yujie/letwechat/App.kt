@@ -6,6 +6,7 @@ import android.content.Context
 import android.util.Log
 import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMOptions
+import com.hyphenate.easeui.controller.EaseUI
 import com.yujie.kotlinfulicenter.model.bean.User
 import java.util.*
 
@@ -78,7 +79,7 @@ class App : Application(){
           context = applicationContext
         val options = EMOptions()
         initChatOptions(options)
-        EMClient.getInstance().init(applicationContext,options)
+        EaseUI.getInstance().init(context,options)
         EMClient.getInstance().setDebugMode(true)
     }
 

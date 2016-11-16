@@ -53,6 +53,24 @@ class DBHelper(
         return insert > 0
     }
 
+    fun updateUser(user: User, status: Int): Boolean {
+        Log.e(TAG,"updateUser "+user.toString())
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put("name", user.name)
+        values.put("uid", user.uid)
+        values.put("sex", user.sex)
+        values.put("b_class", user.b_class)
+        values.put("b_department", user.b_department)
+        values.put("b_bedroom", user.b_bedroom)
+        values.put("user_nick", user.user_nick)
+        values.put("status", status)
+        values.put("password",user.password)
+        val insert = db.update("t_user",values,"user_nick=?", arrayOf(user.user_nick))
+        Log.e(TAG, "updateUser: " + insert)
+        return insert > 0
+    }
+
     fun updateStatus(status: Int, uid: String): Boolean {
         val db = writableDatabase
         val values = ContentValues()

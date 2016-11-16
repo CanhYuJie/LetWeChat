@@ -13,7 +13,7 @@ import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.api.ApiFactory
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
-import com.yujie.letwechat.view.iview.IContactView
+import com.yujie.letwechat.ui.iview.IContactView
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
 import rx.android.schedulers.AndroidSchedulers

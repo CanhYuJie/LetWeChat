@@ -12,7 +12,7 @@ import com.yujie.letwechat.App
 import com.yujie.letwechat.R
 import com.yujie.letwechat.api.ApiFactory
 import com.yujie.letwechat.db.DBHelper
-import com.yujie.letwechat.view.iview.ILoginView
+import com.yujie.letwechat.ui.iview.ILoginView
 import com.yujie.letwechat.utils.common_utils.MD5
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

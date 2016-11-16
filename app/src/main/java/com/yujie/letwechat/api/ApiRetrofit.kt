@@ -1,5 +1,6 @@
 package com.yujie.letwechat.api
 
+import android.util.Log
 import com.yujie.letwechat.App
 import com.yujie.letwechat.I
 import com.yujie.letwechat.utils.common_utils.getNetwokState
