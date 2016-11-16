@@ -2,6 +2,7 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -11,11 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.Direct;
+import com.hyphenate.easeui.I;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.adapter.EaseMessageAdapter;
 import com.hyphenate.easeui.utils.EaseUserUtils;
@@ -24,6 +27,8 @@ import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListe
 import com.hyphenate.util.DateUtils;
 
 import java.util.Date;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public abstract class EaseChatRow extends LinearLayout {
     protected static final String TAG = EaseChatRow.class.getSimpleName();
@@ -115,10 +120,15 @@ public abstract class EaseChatRow extends LinearLayout {
             }
         }
         //set nickname and avatar
+        userAvatarView.setBackground(new BitmapDrawable());
         if(message.direct() == Direct.SEND){
-            EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
+            Glide.with(context).load(I.AVATAR_SERVER_ROOT+EMClient.getInstance().getCurrentUser()+ I.JPGFORMAT)
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .into(userAvatarView);
         }else{
-            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
+            Glide.with(context).load(I.AVATAR_SERVER_ROOT+message.getFrom()+ I.JPGFORMAT)
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .into(userAvatarView);
             EaseUserUtils.setUserNick(message.getFrom(), usernickView);
         }
         

@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -82,6 +83,7 @@ public class EaseChatRowImage extends EaseChatRowFile{
     protected void onBubbleClick() {
         Intent intent = new Intent(context, EaseShowBigImageActivity.class);
         File file = new File(imgBody.getLocalUrl());
+        Log.e(TAG, "onBubbleClick: "+imgBody.getLocalUrl());
         if (file.exists()) {
             Uri uri = Uri.fromFile(file);
             intent.putExtra("uri", uri);
@@ -109,7 +111,6 @@ public class EaseChatRowImage extends EaseChatRowFile{
      * 
      * @param thumbernailPath
      * @param iv
-     * @param position
      * @return the image exists or not
      */
     private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath,final EMMessage message) {

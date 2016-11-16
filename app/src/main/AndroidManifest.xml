@@ -64,9 +64,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.UserDetailActivity" />
-        <activity android:name=".ui.activity.InfoSettingActivity" />
         <activity android:name=".ui.activity.ProfileActivity" />
         <activity android:name=".ui.activity.ChatActivity"></activity>
     </application>
-
 </manifest>

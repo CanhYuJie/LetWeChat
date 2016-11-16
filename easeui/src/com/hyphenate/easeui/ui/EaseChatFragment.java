@@ -79,6 +79,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     protected Bundle fragmentArgs;
     protected int chatType;
     protected String toChatUsername;
+    protected String user_name;
     protected EaseChatMessageList messageList;
     protected EaseChatInputMenu inputMenu;
 
@@ -101,12 +102,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     
     static final int ITEM_TAKE_PICTURE = 1;
     static final int ITEM_PICTURE = 2;
-    static final int ITEM_LOCATION = 3;
-    
-    protected int[] itemStrings = { R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location };
-    protected int[] itemdrawables = { R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
-            R.drawable.ease_chat_location_selector };
-    protected int[] itemIds = { ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION };
+
+    protected int[] itemStrings = { R.string.attach_take_pic, R.string.attach_picture};
+    protected int[] itemdrawables = { R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector};
+    protected int[] itemIds = { ITEM_TAKE_PICTURE, ITEM_PICTURE};
     private EMChatRoomChangeListener chatRoomChangeListener;
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
@@ -124,7 +123,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
-
+        /**
+         * 虞桀，UserName
+         */
+        user_name = fragmentArgs.getString("USER_NAME");
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -181,7 +183,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     }
 
     protected void setUpView() {
-        titleBar.setTitle(toChatUsername);
+        titleBar.setTitle(user_name);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title
             if(EaseUserUtils.getUserInfo(toChatUsername) != null){
@@ -237,8 +239,52 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         if (forward_msg_id != null) {
             forwardMessage(forward_msg_id);
         }
+
+        /**
+         * TODO set Listener
+         */
+        setChatFragmentListener(new EaseChatFragmentHelper() {
+            @Override
+            public void onSetMessageAttributes(EMMessage message) {
+
+            }
+
+            @Override
+            public void onEnterToChatDetails() {
+
+            }
+
+            @Override
+            public void onAvatarClick(String username) {
+            }
+
+            @Override
+            public void onAvatarLongClick(String username) {
+
+            }
+
+            @Override
+            public boolean onMessageBubbleClick(EMMessage message) {
+                return false;
+            }
+
+            @Override
+            public void onMessageBubbleLongClick(EMMessage message) {
+
+            }
+
+            @Override
+            public boolean onExtendMenuItemClick(int itemId, View view) {
+                return false;
+            }
+
+            @Override
+            public EaseCustomChatRowProvider onSetCustomChatRowProvider() {
+                return null;
+            }
+        });
     }
-    
+
     /**
      * register extend menu, item id need > 3 if you override this method and keep exist item
      */
@@ -622,10 +668,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             case ITEM_PICTURE:
                 selectPicFromLocal();
                 break;
-            case ITEM_LOCATION:
-                startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
-                break;
-
             default:
                 break;
             }

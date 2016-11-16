@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.activity_profile.*
 class UserDetailActivity : AppCompatActivity() {
     val TAG : String = UserDetailActivity::class.java.simpleName
     var usernick: String? = ""
+    var username: String? = ""
+    var user:User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -32,33 +34,38 @@ class UserDetailActivity : AppCompatActivity() {
             val intent = Intent(this,ChatActivity::class.java)
             intent.putExtra(EaseConstant.EXTRA_USER_ID,usernick)
             intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE,EMMessage.ChatType.Chat)
+            intent.putExtra("USER_NAME",username)
+            val bunder = Bundle()
+            bunder.putSerializable("user_tag",user)
+            intent.putExtras(bunder)
             startActivity(intent)
         }
     }
 
     private fun setData() {
-        val user = intent.getSerializableExtra("user_tag") as User
+        user = intent.getSerializableExtra("user_tag") as User
         Log.e(TAG,"setData $user"+ App.initInstance().currentUser)
         if (user != null) {
-            if (user.b_department == null) {
+            if (user?.b_department == null) {
                 tv_department.text = "尚未设置所在系部"
             }else{
-               tv_department.text = user.b_department
+               tv_department.text = user?.b_department
             }
-            if (user.b_class == null){
+            if (user?.b_class == null){
                 tv_class.text = "尚未设置所在班级"
             }else{
-                tv_class.text = user.b_class
+                tv_class.text = user?.b_class
             }
-            tv_name.text = user.name
-            tv_accout.text = user.user_nick
-            usernick = user.user_nick
-            if (user.sex.equals("男")){
+            tv_name.text = user?.name
+            tv_accout.text = user?.user_nick
+            usernick = user?.user_nick
+            username = user?.name
+            if (user?.sex.equals("男")){
                 iv_sex.setImageDrawable(resources.getDrawable(R.drawable.ic_sex_male))
             }else{
                 iv_sex.setImageDrawable(resources.getDrawable(R.drawable.ic_sex_female))
             }
-            Glide.with(this).load(I.AVATAR_SERVER_ROOT+user.user_nick+ I.JPGFORMAT)
+            Glide.with(this).load(I.AVATAR_SERVER_ROOT+user?.user_nick+ I.JPGFORMAT)
                     .placeholder(R.drawable.default_image)
                     .error(R.drawable.default_image)
                     .bitmapTransform(CropCircleTransformation(this))

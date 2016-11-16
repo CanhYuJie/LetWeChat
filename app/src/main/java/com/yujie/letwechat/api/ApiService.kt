@@ -46,4 +46,6 @@ interface ApiService {
                          @Query(I.OPT_USER) user:String):Observable<ArrayList<Department>>
     @POST(I.MANAGER_SERVER)
     fun updateUser(@QueryMap par: Map<String, String>):Observable<Result>
+    @GET(I.REQUEST_GET_USER_BY_NICK)
+    fun getUserByNick(@Query(I.Student.USER_NICK) user_nick:String):Observable<ResultData>
 }

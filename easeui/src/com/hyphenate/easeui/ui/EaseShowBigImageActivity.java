@@ -36,6 +36,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
@@ -58,7 +60,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.ease_activity_show_big_image);
 		super.onCreate(savedInstanceState);
-
 		image = (EasePhotoView) findViewById(R.id.image);
 		ProgressBar loadLocalPb = (ProgressBar) findViewById(R.id.pb_load_local);
 		default_res = getIntent().getIntExtra("default_image", R.drawable.ease_default_avatar);
@@ -103,7 +104,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	/**
 	 * download image
 	 * 
-	 * @param remoteFilePath
 	 */
 	@SuppressLint("NewApi")
 	private void downloadImage(final String msgId) {
@@ -193,4 +193,5 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 			setResult(RESULT_OK);
 		finish();
 	}
+
 }

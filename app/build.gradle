@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "com.yujie.letwechat"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -39,7 +39,6 @@ dependencies {
     })
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.anko:anko-common:$anko_version"
-    compile files('libs/hyphenatechat_3.2.0.jar')
     compile files('libs/okio-1.6.0.jar')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
