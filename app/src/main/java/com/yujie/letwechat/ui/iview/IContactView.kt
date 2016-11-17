@@ -7,4 +7,5 @@ import com.yujie.kotlinfulicenter.model.bean.User
  */
 interface IContactView {
     fun goProfileActivity(t: User)
+    fun showHint()
 }

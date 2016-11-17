@@ -1,5 +1,6 @@
 package com.yujie.letwechat.presenter
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -7,15 +8,20 @@ import android.util.Log
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.hyphenate.chat.EMClient.TAG
+import com.yujie.kotlinfulicenter.model.bean.FriendMsg
 import com.yujie.kotlinfulicenter.model.bean.User
 import com.yujie.letwechat.App
 import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.api.ApiFactory
+import com.yujie.letwechat.db.DBHelper
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import com.yujie.letwechat.ui.iview.IContactView
+import com.yujie.letwechat.utils.common_utils.showLongToast
+import com.yujie.letwechat.utils.common_utils.showShortToast
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -28,12 +34,12 @@ class ContactPre(val context: Context,
                  val view:IContactView
                  ) {
     var data = ArrayList<User>()
-    val getContacts = ApiFactory.getNetApiInstance()
+    val api = ApiFactory.getNetApiInstance()
     var adapter: CommonAdapter<User>? = null
     fun getContacts(): Unit {
         val currentUser = App.initInstance().currentUser
         if (currentUser != null) {
-            getContacts!!.getContacts(currentUser!!.uid)
+            api!!.getContacts(currentUser!!.uid)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({result -> loadData(result)},{e -> showLongToastRes(context, R.string.def_empty_data_text)})
@@ -43,6 +49,24 @@ class ContactPre(val context: Context,
     private fun loadData(result: ArrayList<User>) {
         data = result
         initAdapter()
+    }
+
+    fun getUserInfo(user_nick: String) {
+        api!!.getUserByNick(user_nick)
+                .map { it.data }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({addContact(it!!)},{ showShortToast(context,it.toString())})
+    }
+
+    private fun addContact(user: User) {
+        if (!data.contains(user)){
+            showLongToast(context,user.name+"已经成为了你的好友")
+            data.add(user)
+            adapter?.notifyItemInserted(adapter?.itemCount!!)
+        }else{
+            showLongToast(context,"已是好友,不能重复添加")
+        }
     }
 
     private fun initAdapter() {
@@ -70,5 +94,18 @@ class ContactPre(val context: Context,
 
     fun hasDat(): Boolean {
         return data.size == 0
+    }
+
+    fun addFriendMsg(user_name: String,msg:String?) {
+        api!!.getUserByNick(user_name)
+                .map { it.data }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.e(TAG,"addFriendMsg $it")
+                    val msg = FriendMsg(user_name,it?.name,msg,it?.uid,false)
+                    DBHelper(context).addFriendMsg(msg)
+                    view.showHint()
+                },{ showShortToast(context,it.toString())})
     }
 }

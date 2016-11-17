@@ -88,7 +88,7 @@ class App : Application(){
      * set autologin and add friends need pass Invitation
      */
     private fun initChatOptions(options: EMOptions) {
-        options.acceptInvitationAlways = true
+        options.acceptInvitationAlways = false
         options.autoLogin = true
     }
 

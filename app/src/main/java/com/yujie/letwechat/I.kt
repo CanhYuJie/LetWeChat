@@ -112,7 +112,7 @@ interface I {
         /** 客户端发送的下载用户的好友列表的全部数据的请求  */
         const val REQUEST_DOWNLOAD_CONTACT_ALL_LIST = "DownloadAllContact"
         /** 客户端发送的添加好友的请求  */
-        const val REQUEST_ADD_CONTACT = "addContact"
+        const val REQUEST_ADD_CONTACT = "AddContact"
         /** 客户端发送的删除好友的请求  */
         const val REQUEST_DELETE_CONTACT = "deleteContact"
         /** 客户端发送的根据用户名查找用户信息的请求  */
@@ -122,5 +122,6 @@ interface I {
         const val REQUEST_GET_ALL_BEDROOM = "getBedRoomInfo"
         const val REQUEST_UPDATE_USER = "modStuInfo"
         const val REQUEST_GET_USER_BY_NICK = "FindUserByNick"
+        const val REQUEST_GET_USERS_BY_NICK = "GetInfosByNick"
     }
 }

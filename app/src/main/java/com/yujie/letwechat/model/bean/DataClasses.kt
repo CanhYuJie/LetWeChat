@@ -26,3 +26,8 @@ data class BedRoom(val b_floor:String?,
                    val b_area:String?,
                    val intro: String?) :Serializable
 data class Department(val department:String) :Serializable
+data class FriendMsg(val user_nick: String,
+                     val name:String?,
+                     val msg: String?,
+                     val uid: String?,
+                     var hasRead: Boolean) :Serializable
