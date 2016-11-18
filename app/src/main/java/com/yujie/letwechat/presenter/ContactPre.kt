@@ -21,7 +21,6 @@ import com.yujie.letwechat.utils.common_utils.showLongToast
 import com.yujie.letwechat.utils.common_utils.showShortToast
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
-import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -108,4 +107,5 @@ class ContactPre(val context: Context,
                     view.showHint()
                 },{ showShortToast(context,it.toString())})
     }
+
 }

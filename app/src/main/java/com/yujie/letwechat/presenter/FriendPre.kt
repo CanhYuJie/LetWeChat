@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.hyphenate.chat.EMClient
@@ -47,6 +48,7 @@ class FriendPre(val context: Context,
                             .placeholder(R.drawable.ease_default_avatar)
                             .error(R.drawable.ease_default_avatar)
                             .into(holder.getView(R.id.avatar))
+                    holder.getView<Button>(R.id.refuse_btn).visibility = View.GONE
                     holder.getView<Button>(R.id.add_btn).setOnClickListener {
                         thread {
                             try {
@@ -65,6 +67,17 @@ class FriendPre(val context: Context,
                             .error(R.drawable.ease_default_avatar)
                             .into(holder.getView(R.id.avatar))
                     holder.setText(R.id.add_btn,"同意")
+                    holder.getView<Button>(R.id.refuse_btn).visibility = View.VISIBLE
+                    holder.getView<Button>(R.id.refuse_btn).setOnClickListener {
+                        refuse(t,position)
+                        thread {
+                            try {
+                                EMClient.getInstance().contactManager().declineInvitation(t.user_nick)
+                            }catch (e:HyphenateException){
+                                Log.e(TAG,"convert "+e)
+                            }
+                        }
+                    }
                     holder.getView<Button>(R.id.add_btn).setOnClickListener {
                         addContact(t,position)
                         thread {
@@ -122,5 +135,11 @@ class FriendPre(val context: Context,
                     hasSearched = true
                     adapter?.notifyDataSetChanged()
                 },{ showShortToast(context,it.toString())})
+    }
+
+    fun refuse(t:FriendMsg,position: Int) {
+        DBHelper(context).delFriendMsg(t.user_nick)
+        list.remove(t)
+        adapter?.notifyItemRemoved(position)
     }
 }

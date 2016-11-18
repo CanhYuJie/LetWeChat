@@ -66,7 +66,7 @@
         <activity android:name=".ui.activity.UserDetailActivity" />
         <activity android:name=".ui.activity.ProfileActivity" />
         <activity android:name=".ui.activity.ChatActivity" />
-        <activity android:name=".ui.activity.FriendMsgActivity"></activity>
+        <activity android:name=".ui.activity.FriendMsgActivity" android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

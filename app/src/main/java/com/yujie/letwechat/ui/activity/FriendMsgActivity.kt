@@ -13,6 +13,7 @@ import com.yujie.letwechat.utils.common_utils.invalidEmpty
 import com.yujie.letwechat.utils.common_utils.showLongToast
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import kotlinx.android.synthetic.main.activity_friend_msg.*
+import kotlinx.android.synthetic.main.costum_titlebar_layout.*
 import java.util.*
 
 class FriendMsgActivity : AppCompatActivity(),IFriendMsg {
@@ -32,6 +33,9 @@ class FriendMsgActivity : AppCompatActivity(),IFriendMsg {
                 return@setOnClickListener
             val nick = et_search.text.toString()
             pre?.search(nick)
+        }
+        left_btn.setOnClickListener{
+            finish()
         }
     }
 

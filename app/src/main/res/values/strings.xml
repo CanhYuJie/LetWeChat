@@ -146,4 +146,5 @@
     <string name="login_nick">登录名</string>
     <string name="add_friend_menu">新的朋友</string>
     <string name="public_group_label">公众号</string>
+    <string name="refuse_friend">拒绝</string>
 </resources>

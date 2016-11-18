@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import com.hyphenate.EMConnectionListener
+import com.hyphenate.EMContactListener
 import com.hyphenate.EMError
 import com.hyphenate.chat.EMChatManager
 import com.hyphenate.chat.EMClient
@@ -20,14 +21,18 @@ import com.hyphenate.chat.EMMessage
 import com.yujie.kotlinfulicenter.utils.convertDraw
 import com.yujie.letwechat.App
 import com.yujie.letwechat.R
+import com.yujie.letwechat.event.ContactAgreed
+import com.yujie.letwechat.event.FriendInvite
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import com.yujie.letwechat.ui.fragment.ChatFragment
 import com.yujie.letwechat.ui.fragment.ContactFragment
 import com.yujie.letwechat.ui.fragment.DiscoverFragment
 import com.yujie.letwechat.ui.fragment.MeFragment
+import com.yujie.letwechat.utils.common_utils.showLongToast
 import com.yujie.letwechat.widget.ActionItem
 import com.yujie.letwechat.widget.TitlePopup
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
 
 class MainActivity : AppCompatActivity() {
     val TAG : String = MainActivity::class.java.simpleName
@@ -42,11 +47,36 @@ class MainActivity : AppCompatActivity() {
         initTitlePop()
         initPopListener()
         initReceiver()
-        Log.e(TAG,"onCreate ${App.initInstance().currentUser.toString()}")
     }
 
     private fun initReceiver() {
         EMClient.getInstance().addConnectionListener(KConnectionListener())
+        EMClient.getInstance().contactManager()
+                .setContactListener(object : EMContactListener {
+                    override fun onContactInvited(user_name: String, p1: String) {
+                        //收到好友邀请
+                        EventBus.getDefault().post(FriendInvite(user_name,p1))
+                    }
+
+                    override fun onContactRefused(user_name: String) {
+                        runOnUiThread {
+                            showLongToast(this@MainActivity,user_name+"拒绝你的好友申请")
+                        }
+                    }
+
+                    override fun onContactDeleted(user_name: String) {
+
+                    }
+
+                    override fun onContactAdded(user_name: String) {
+
+                    }
+
+                    override fun onContactAgreed(user_name: String) {
+                        EventBus.getDefault().post(ContactAgreed(user_name))
+                    }
+
+                })
     }
 
     private fun initPopListener() {

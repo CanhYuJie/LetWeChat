@@ -12,6 +12,8 @@ import com.hyphenate.easeui.ui.EaseContactListFragment
 import com.yujie.kotlinfulicenter.model.bean.User
 
 import com.yujie.letwechat.R
+import com.yujie.letwechat.event.ContactAgreed
+import com.yujie.letwechat.event.FriendInvite
 import com.yujie.letwechat.presenter.ContactPre
 import com.yujie.letwechat.ui.activity.FriendMsgActivity
 import com.yujie.letwechat.utils.common_utils.KstartActivity
@@ -19,6 +21,9 @@ import com.yujie.letwechat.ui.activity.UserDetailActivity
 import com.yujie.letwechat.ui.iview.IContactView
 import com.yujie.letwechat.utils.common_utils.showLongToast
 import kotlinx.android.synthetic.main.fragment_contact.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class ContactFragment :BaseFragment(),IContactView {
     var pre:ContactPre? = null
@@ -26,6 +31,7 @@ class ContactFragment :BaseFragment(),IContactView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_contact, container, false)
+        EventBus.getDefault().register(this)
         return view
     }
 
@@ -33,6 +39,16 @@ class ContactFragment :BaseFragment(),IContactView {
     override fun lazyFetchData() {
         super.lazyFetchData()
         pre?.getContacts()
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    fun friendInvite(event: FriendInvite){
+        pre?.addFriendMsg(event.name,event.reason)
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    fun contactAgreed(event: ContactAgreed){
+        pre?.getUserInfo(event.name)
     }
 
 
@@ -46,30 +62,6 @@ class ContactFragment :BaseFragment(),IContactView {
         public_group_root.setOnClickListener {
             //TODO go public group activity
         }
-        EMClient.getInstance().contactManager()
-                .setContactListener(object :EMContactListener{
-                    override fun onContactInvited(user_name: String, p1: String) {
-                        //收到好友邀请
-                        pre?.addFriendMsg(user_name,p1)
-                    }
-
-                    override fun onContactRefused(user_name: String) {
-                        showLongToast(context,"$user_name 拒绝了你的好友申请")
-                    }
-
-                    override fun onContactDeleted(user_name: String) {
-
-                    }
-
-                    override fun onContactAdded(user_name: String) {
-
-                    }
-
-                    override fun onContactAgreed(user_name: String) {
-                        pre?.getUserInfo(user_name)
-                    }
-
-                })
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
