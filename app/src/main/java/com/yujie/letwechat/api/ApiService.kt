@@ -53,4 +53,7 @@ interface ApiService {
                    @Query(I.Contact.O_UID) o_uid: String):Observable<Result>
     @GET(I.REQUEST_GET_USERS_BY_NICK)
     fun getUsersByNick(@Query(I.Student.USER_NICK) user_nick: String): Observable<ArrayList<User>>
+    @GET(I.REQUEST_DEL_CONTACT)
+    fun delContact(@Query(I.Contact.M_UID) m_uid: String,
+                   @Query(I.Contact.O_UID) o_uid: String):Observable<Result>
 }

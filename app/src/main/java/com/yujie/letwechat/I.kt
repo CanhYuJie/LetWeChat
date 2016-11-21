@@ -123,5 +123,6 @@ interface I {
         const val REQUEST_UPDATE_USER = "modStuInfo"
         const val REQUEST_GET_USER_BY_NICK = "FindUserByNick"
         const val REQUEST_GET_USERS_BY_NICK = "GetInfosByNick"
+        const val REQUEST_DEL_CONTACT = "DelContact"
     }
 }

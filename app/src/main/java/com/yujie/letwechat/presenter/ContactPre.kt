@@ -5,8 +5,10 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
+import com.hyphenate.chat.EMClient
 import com.hyphenate.chat.EMClient.TAG
 import com.yujie.kotlinfulicenter.model.bean.FriendMsg
 import com.yujie.kotlinfulicenter.model.bean.User
@@ -19,11 +21,14 @@ import com.yujie.letwechat.utils.common_utils.showLongToastRes
 import com.yujie.letwechat.ui.iview.IContactView
 import com.yujie.letwechat.utils.common_utils.showLongToast
 import com.yujie.letwechat.utils.common_utils.showShortToast
+import com.yujie.letwechat.widget.ActionItem
+import com.yujie.letwechat.widget.TitlePopup
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
+import kotlin.concurrent.thread
 
 /**
  * Created by yujie on 16-11-12.
@@ -35,6 +40,8 @@ class ContactPre(val context: Context,
     var data = ArrayList<User>()
     val api = ApiFactory.getNetApiInstance()
     var adapter: CommonAdapter<User>? = null
+    var titlePop : TitlePopup? = null
+    var deletePosition = -1
     fun getContacts(): Unit {
         val currentUser = App.initInstance().currentUser
         if (currentUser != null) {
@@ -77,7 +84,6 @@ class ContactPre(val context: Context,
                 }else{
                     holder.setText(R.id.contact_name,t.user_nick)
                 }
-                Log.e(TAG,"convert "+I.AVATAR_SERVER_ROOT+t.user_nick+I.JPGFORMAT)
                 Glide.with(context).load(I.AVATAR_SERVER_ROOT+t.user_nick+I.JPGFORMAT)
                         .placeholder(R.drawable.default_image)
                         .error(R.drawable.default_image)
@@ -85,10 +91,71 @@ class ContactPre(val context: Context,
                 holder.getView<LinearLayout>(R.id.contact_item_root).setOnClickListener {
                     view.goProfileActivity(t)
                 }
+                holder.getView<LinearLayout>(R.id.contact_item_root).setOnLongClickListener({
+                    titlePop = TitlePopup(context, ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT)
+                    titlePop?.setItemOnClickListener(itemclick)
+                    titlePop?.addAction(ActionItem(context,"删除该好友"))
+                    titlePop?.addAction(ActionItem(context,"取消"))
+                    titlePop?.show(holder.getView<LinearLayout>(R.id.contact_item_root))
+                    deletePosition = position
+                    true
+                })
             }
 
         }
         rec.adapter = adapter
+    }
+
+    private val itemclick = TitlePopup.OnItemOnClickListener { item, position ->
+        when(position){
+            0       ->  {
+                deleteContact(deletePosition)
+            }
+            1       ->  {
+                titlePop?.dismiss()
+            }
+        }
+    }
+
+    private fun deleteContact(deletePosition: Int) {
+        Log.e(TAG,"deleteContact "+App.initInstance().currentUser!!.uid
+                +"\n"+data[deletePosition].uid)
+        api!!.delContact(App.initInstance().currentUser!!.uid,
+                data[deletePosition].uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.e(TAG,"deleteContact $it")
+                    if (it!=null && it.flag){
+                        delNotify(data[deletePosition])
+                    }else{
+                        view.delFailed("删除失败")
+                    }
+                },{showShortToast(context,it.toString())})
+    }
+
+    private fun delNotify(user: User) {
+        thread {
+            try{
+                EMClient.getInstance().contactManager().deleteContact(user.user_nick)
+                data.remove(user)
+                adapter?.notifyItemRemoved(deletePosition)
+                deletePosition = -1
+            }catch(e: Exception){
+                Log.e(TAG,"delNotify 删除失败了"+e.message)
+            }
+        }
+    }
+
+    fun contactDeleted(user_nick: String){
+        for (i in data){
+            if (i.user_nick.equals(user_nick)){
+                data.remove(i)
+                break
+            }
+        }
+        adapter?.notifyDataSetChanged()
     }
 
     fun hasDat(): Boolean {

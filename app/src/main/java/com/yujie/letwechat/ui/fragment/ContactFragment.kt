@@ -2,17 +2,14 @@ package com.yujie.letwechat.ui.fragment
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hyphenate.EMContactListener
-import com.hyphenate.chat.EMClient
-import com.hyphenate.easeui.ui.EaseContactListFragment
 import com.yujie.kotlinfulicenter.model.bean.User
 
 import com.yujie.letwechat.R
 import com.yujie.letwechat.event.ContactAgreed
+import com.yujie.letwechat.event.ContactDeleted
 import com.yujie.letwechat.event.FriendInvite
 import com.yujie.letwechat.presenter.ContactPre
 import com.yujie.letwechat.ui.activity.FriendMsgActivity
@@ -51,6 +48,11 @@ class ContactFragment :BaseFragment(),IContactView {
         pre?.getUserInfo(event.name)
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    fun contactDeleted(event:ContactDeleted){
+        showLongToast(activity,event.nick+"已和你解除好友关系")
+        pre?.contactDeleted(event.nick)
+    }
 
     private fun setListener() {
         new_friend_root.setOnClickListener {
@@ -86,5 +88,18 @@ class ContactFragment :BaseFragment(),IContactView {
         if (isVisible){
             friendMsg_unread.visibility = View.GONE
         }
+    }
+
+    override fun delSuccess() {
+        showLongToast(activity,"该好友已删除")
+    }
+
+    override fun delFailed(s: String) {
+        showLongToast(activity,s)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 }

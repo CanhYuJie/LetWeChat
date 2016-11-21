@@ -2,6 +2,7 @@ package com.hyphenate.easeui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +14,32 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.I;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
+import com.hyphenate.easeui.model.ResultData;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
 import com.hyphenate.util.DateUtils;
+import com.yujie.letwechat.utils.net_utils.OkHttpUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * conversation list adapter
@@ -42,7 +51,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
     private List<EMConversation> copyConversationList;
     private ConversationFilter conversationFilter;
     private boolean notiyfyByFilter;
-    
+
     protected int primaryColor;
     protected int secondaryColor;
     protected int timeColor;
@@ -118,8 +127,10 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.name.setText(room != null && !TextUtils.isEmpty(room.getName()) ? room.getName() : username);
             holder.motioned.setVisibility(View.GONE);
         }else {
-            EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
-            EaseUserUtils.setUserNick(username, holder.name);
+            Glide.with(getContext()).load(I.AVATAR_SERVER_ROOT+username+ I.JPGFORMAT)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .into(holder.avatar);
+            setUserNick(getContext(),username,holder.name);
             holder.motioned.setVisibility(View.GONE);
         }
 
@@ -164,7 +175,30 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 
         return convertView;
     }
-    
+
+    private void setUserNick(Context context, String username, final TextView name) {
+        OkHttpUtils<ResultData> util = new OkHttpUtils<>(context);
+        util.setRequestUrl(I.REQUEST_GET_USER_BY_NICK)
+                    .addParams("user_nick",username)
+                    .targetClass(ResultData.class)
+                    .execute(new OkHttpUtils.OnCompleteListener<ResultData>() {
+                        @Override
+                        public void onSuccess(ResultData result) {
+                            Log.e(TAG, "onSuccess: "+result);
+                            if (result!=null & result.isFlag()){
+                                name.setText(result.getData().getName()+"("+result.getData().getUser_nick()+")");
+                            }else {
+                                Log.e(TAG, "No such user" );
+                            }
+                        }
+
+                        @Override
+                        public void onError(@NotNull String msg) {
+                            Log.e(TAG, "disConnecting");
+                        }
+                    });
+    }
+
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();

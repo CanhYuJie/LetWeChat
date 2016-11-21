@@ -17,14 +17,15 @@ import com.hyphenate.EMContactListener
 import com.hyphenate.EMError
 import com.hyphenate.chat.EMChatManager
 import com.hyphenate.chat.EMClient
+import com.hyphenate.chat.EMConversation
 import com.hyphenate.chat.EMMessage
+import com.hyphenate.easeui.ui.EaseConversationListFragment
 import com.yujie.kotlinfulicenter.utils.convertDraw
 import com.yujie.letwechat.App
 import com.yujie.letwechat.R
 import com.yujie.letwechat.event.ContactAgreed
 import com.yujie.letwechat.event.FriendInvite
 import com.yujie.letwechat.utils.common_utils.showLongToastRes
-import com.yujie.letwechat.ui.fragment.ChatFragment
 import com.yujie.letwechat.ui.fragment.ContactFragment
 import com.yujie.letwechat.ui.fragment.DiscoverFragment
 import com.yujie.letwechat.ui.fragment.MeFragment
@@ -33,11 +34,19 @@ import com.yujie.letwechat.widget.ActionItem
 import com.yujie.letwechat.widget.TitlePopup
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
+import com.hyphenate.easeui.EaseConstant
+import com.yujie.letwechat.api.ApiFactory
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
+import com.hyphenate.EMMessageListener
+import kotlin.concurrent.thread
+
 
 class MainActivity : AppCompatActivity() {
     val TAG : String = MainActivity::class.java.simpleName
     var btnArr : Array<RadioButton> ?= null
     var titlePop : TitlePopup? = null
+    var conversation:EaseConversationListFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         initTitlePop()
         initPopListener()
         initReceiver()
+        updateUnreadLabel()
     }
 
     private fun initReceiver() {
@@ -65,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onContactDeleted(user_name: String) {
-
+                        EventBus.getDefault().post(user_name)
                     }
 
                     override fun onContactAdded(user_name: String) {
@@ -77,6 +87,36 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
+        val msgListener = object : EMMessageListener {
+
+            override fun onMessageReceived(messages: List<EMMessage>) {
+                modState()
+            }
+
+            override fun onCmdMessageReceived(messages: List<EMMessage>) {
+                //收到透传消息
+            }
+
+            override fun onMessageReadAckReceived(messages: List<EMMessage>) {
+                //收到已读回执
+            }
+
+            override fun onMessageDeliveryAckReceived(message: List<EMMessage>) {
+                //收到已送达回执
+            }
+
+            override fun onMessageChanged(message: EMMessage, change: Any) {
+
+            }
+        }
+        EMClient.getInstance().chatManager().addMessageListener(msgListener)
+    }
+
+    private fun modState() {
+        runOnUiThread {
+            updateUnreadLabel()
+            conversation?.refresh()
+        }
     }
 
     private fun initPopListener() {
@@ -85,6 +125,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateUnreadLabel()
+    }
     private fun initTitlePop() {
         titlePop = TitlePopup(this, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -138,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         mainVP.adapter = object : FragmentPagerAdapter(supportFragmentManager){
             override fun getItem(position: Int): Fragment? {
                 when(position){
-                    0   ->  {return ChatFragment()}
+                    0   ->  {return conversation}
                     1   ->  {return ContactFragment()}
                     2   ->  {return DiscoverFragment()}
                     3   ->  {return MeFragment()}
@@ -172,6 +216,28 @@ class MainActivity : AppCompatActivity() {
         convertDraw(this,main_contacts,R.drawable.tab_contact_list)
         convertDraw(this,main_discover,R.drawable.tab_find)
         convertDraw(this,main_me,R.drawable.tab_profile)
+        conversation = EaseConversationListFragment()
+        conversation?.setConversationListItemClickListener {conv ->
+            val api = ApiFactory.getNetApiInstance()
+            api!!.getUserByNick(conv.userName)
+                    .map { it.data }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        if (it != null) {
+                            val intent = Intent(this,ChatActivity::class.java)
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID,it!!.user_nick)
+                            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE,EMMessage.ChatType.Chat)
+                            intent.putExtra("USER_NAME",it.name)
+                            val bunder = Bundle()
+                            bunder.putSerializable("user_tag",it)
+                            intent.putExtras(bunder)
+                            startActivity(intent)
+                        }else{
+                            Log.e(TAG,"No such user")
+                        }
+                    },{e -> Log.e("finuserInfo",e.toString())})
+        }
     }
 
 
@@ -201,18 +267,6 @@ class MainActivity : AppCompatActivity() {
             showLongToastRes(App.initInstance().getLastActivity().applicationContext,stringId)
         }
 
-    }
-
-    private class NewMsgReceiver() : BroadcastReceiver(){
-        override fun onReceive(context: Context, intent: Intent) {
-            val from = intent.getStringExtra("from")
-			// 消息id
-			val msgId = intent.getStringExtra("msgid")
-            val message = EMClient.getInstance().chatManager().getMessage(msgId)
-            // TODO if message.getTo() same as chatactivity,return
-            // TODO refresh message count here ,and if current fragment
-            // TODO is chatFragment,refresh fragment
-        }
     }
 
     fun updateUnreadLabel(): Unit {
