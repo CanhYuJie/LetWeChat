@@ -56,4 +56,7 @@ interface ApiService {
     @GET(I.REQUEST_DEL_CONTACT)
     fun delContact(@Query(I.Contact.M_UID) m_uid: String,
                    @Query(I.Contact.O_UID) o_uid: String):Observable<Result>
+    @POST(I.REQUEST_UPDATE_PASSWORD)
+    fun updatePwd(@Query(I.Student.USER_NICK) user_nick: String,
+                  @Query(I.Student.PASSWORD) password: String):Observable<Result>
 }

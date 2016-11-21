@@ -14,6 +14,7 @@ import com.yujie.letwechat.I
 import com.yujie.letwechat.R
 import com.yujie.letwechat.utils.common_utils.KstartActivity
 import com.yujie.letwechat.ui.activity.ProfileActivity
+import com.yujie.letwechat.ui.activity.SettingActivity
 import com.yujie.letwechat.ui.activity.UserDetailActivity
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_me.*
@@ -37,8 +38,10 @@ class MeFragment : BaseFragment() {
 
     private fun setListener() {
         view_user.setOnClickListener {
-            Log.e("setListener","setListener ")
             KstartActivity(activity, ProfileActivity::class.java)
+        }
+        txt_setting.setOnClickListener {
+            KstartActivity(activity,SettingActivity::class.java)
         }
     }
 

@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 
+
+
 /**
  * Created by yujie on 16-10-28.
  */
@@ -118,6 +120,16 @@ fun <T>KstartActivity(activity : FragmentActivity, cls : Class<T>) {
     activity.overridePendingTransition(R.anim.push_left_in,
             R.anim.push_left_out)
 }
+
+fun <T>SingleStartActivity(activity : FragmentActivity, cls : Class<T>) {
+    val intent = Intent()
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    intent.setClass(activity,cls)
+    activity.startActivity(intent)
+    activity.overridePendingTransition(R.anim.push_left_in,
+            R.anim.push_left_out)
+}
+
 /**
  * start activity with a boolean value
  */

@@ -147,4 +147,7 @@
     <string name="add_friend_menu">新的朋友</string>
     <string name="public_group_label">公众号</string>
     <string name="refuse_friend">拒绝</string>
+    <string name="oldpwd">原密码</string>
+    <string name="newpwd">新密码</string>
+    <string name="onemore">再一次</string>
 </resources>
